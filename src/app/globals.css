@@ -25,6 +25,7 @@
   --fg-2: var(--ink-2);
   --line: rgba(20, 20, 19, 0.22);
   --panel: var(--surface);
+  --chip-bg: var(--chip);
 
   --space-1: 8px;
   --space-2: 16px;
@@ -53,6 +54,7 @@
     --fg-2: #a3a19b;
     --line: rgba(242, 241, 238, 0.24);
     --panel: #161615;
+    --chip-bg: rgba(242, 241, 238, 0.1);
     color-scheme: dark;
   }
 }
@@ -62,6 +64,7 @@
   --fg-2: #a3a19b;
   --line: rgba(242, 241, 238, 0.24);
   --panel: #161615;
+  --chip-bg: rgba(242, 241, 238, 0.1);
   color-scheme: dark;
 }
 
@@ -378,6 +381,8 @@ button:disabled {
 }
 .ch-mode {
   position: relative;
+  min-height: 32px;
+  padding: 0 var(--space-1);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -707,7 +712,7 @@ button:disabled {
 /* Tools */
 .ch-tools {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: var(--space-1);
   overflow-x: auto;
   padding: var(--space-2) var(--space-2) var(--space-1);
@@ -747,7 +752,9 @@ button:disabled {
 .ch-tabs {
   display: flex;
   justify-content: center;
-  gap: var(--space-4);
+  gap: var(--space-1);
+  overflow-x: auto;
+  scrollbar-width: none;
   height: var(--space-6);
   align-items: center;
 }
@@ -804,6 +811,15 @@ button:disabled {
     justify-content: flex-start;
     padding: 0 var(--space-2);
     border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    flex: none;
+    background: var(--panel);
+  }
+  .ch-looks-divider,
+  .ch-tools-divider {
+    display: none;
   }
   .ch-looks {
     order: 1;
@@ -818,6 +834,300 @@ button:disabled {
   .ch-tool {
     flex: 0 0 56px;
   }
+}
+
+/* ---------- camera modes ---------- */
+
+.ch-frame.is-strip {
+  width: min(100cqw, 133.33cqh);
+  height: min(75cqw, 100cqh);
+}
+.ch-ascii-live {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ch-strip-slots {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+}
+.ch-strip-slot {
+  width: 40px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid rgba(242, 241, 238, 0.35);
+  overflow: hidden;
+}
+.ch-strip-slot.is-filled {
+  border-color: transparent;
+  animation: ch-pop 300ms var(--ease) both;
+}
+.ch-strip-slot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- editor controls ---------- */
+
+.ch-chips {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 0 var(--space-1);
+}
+.ch-chips::-webkit-scrollbar,
+.ch-subtabs::-webkit-scrollbar,
+.ch-tabs::-webkit-scrollbar {
+  display: none;
+}
+.ch-chip {
+  flex: none;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--fg);
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background 150ms, color 150ms, transform 150ms var(--ease);
+}
+.ch-chip:active {
+  transform: scale(0.95);
+}
+.ch-chip.is-on {
+  background: var(--fg);
+  color: var(--bg);
+}
+.ch-chip-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.ch-subtabs {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ch-subtab {
+  position: relative;
+  flex: none;
+  min-height: 32px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  white-space: nowrap;
+}
+.ch-subtab.is-on {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+.ch-subtab .ch-dot {
+  top: 6px;
+  right: -7px;
+  width: 4px;
+  height: 4px;
+}
+
+.ch-swatches {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  padding: 2px;
+}
+.ch-swatch {
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  transition: transform 150ms var(--ease);
+}
+.ch-swatch.is-on {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--fg);
+  transform: scale(1.06);
+}
+.ch-swatch .ch-dot {
+  top: -2px;
+  right: -2px;
+}
+
+.ch-head-actions {
+  display: flex;
+  margin: -12px -8px -12px 0;
+}
+.ch-icon-sm {
+  width: 40px;
+  height: 40px;
+}
+.ch-icon-btn.ch-icon-sm.is-on {
+  color: var(--pink);
+}
+
+.ch-tools-divider,
+.ch-looks-divider {
+  flex: none;
+  width: 1px;
+  background: var(--line);
+  align-self: center;
+}
+.ch-tools-divider {
+  height: 32px;
+}
+.ch-looks-divider {
+  height: 48px;
+  margin: 0 4px 24px;
+}
+
+.ch-look-thumb {
+  position: relative;
+}
+.ch-look-add {
+  display: grid;
+  place-items: center;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--fg-2);
+}
+.ch-preset-name {
+  max-width: 64px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.ch-thumb-badge {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: rgba(15, 15, 14, 0.7);
+  color: #f2f1ee;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.ch-glyph-icon {
+  height: 20px;
+  line-height: 20px;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 17px;
+}
+.ch-tool:disabled {
+  opacity: 0.35;
+}
+
+.ch-text-input {
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 16px;
+  outline: none;
+}
+.ch-text-input:focus {
+  border-bottom-color: var(--fg);
+}
+.ch-caption-input {
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+.ch-mono-input {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+}
+.ch-colour-pair {
+  display: flex;
+  gap: var(--space-3);
+}
+.ch-colour-pair label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.ch-colour-pair input[type="color"] {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+}
+
+.ch-slider-line.is-hue {
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #f33, #fb3, #ef3, #3f6, #3ef, #36f, #c3f, #f3a, #f33);
+}
+
+/* Print preview */
+.ch-photo-wrap {
+  position: relative;
+}
+.ch-photo.is-print {
+  box-shadow: 0 1px 2px rgba(20, 20, 19, 0.08), 0 8px 24px rgba(20, 20, 19, 0.1);
+}
+.ch-developing {
+  position: absolute;
+  background: #efebe2;
+  pointer-events: none;
+  animation: ch-develop 4000ms cubic-bezier(0.3, 0, 0.3, 1) both;
+}
+@keyframes ch-develop {
+  0% { opacity: 1; filter: blur(0); }
+  30% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+.ch-frame-tile {
+  display: flex;
+  box-sizing: border-box;
+  background: var(--chip-bg);
+}
+.ch-frame-tile-photo {
+  flex: 1;
+  background: linear-gradient(170deg, #9cc3d1 0 40%, #efc9a6 41% 60%, #5f6f5a 61%);
+}
+.ch-frame-tile.is-none { padding: 0; }
+.ch-frame-tile.is-instant { padding: 6px 7px 18px; background: #f6f3ec; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+.ch-frame-tile.is-sx70 { padding: 7px 8px 16px; background: #efe6d3; }
+.ch-frame-tile.is-mini { padding: 8px 14px 18px; background: #f7f6f2; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+.ch-frame-tile.is-wide { padding: 12px 5px 18px; background: #f7f6f2; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+.ch-frame-tile.is-border { padding: 6px; background: #fbfaf7; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+.ch-frame-tile.is-strip { padding: 4px 18px 14px; background: #fbfaf7; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+.ch-frame-tile.is-strip .ch-frame-tile-photo {
+  background: repeating-linear-gradient(180deg, #8fae9b 0 9px, #fbfaf7 9px 11px);
+}
+.ch-frame-tile.is-film {
+  padding: 13px 4px;
+  background:
+    radial-gradient(circle, #e9e4d8 1.6px, transparent 2px) 0 3px / 7px 7px repeat-x,
+    radial-gradient(circle, #e9e4d8 1.6px, transparent 2px) 0 calc(100% - 3px) / 7px 7px repeat-x,
+    #121110;
 }
 
 /* ---------- motion ---------- */
@@ -858,5 +1168,8 @@ button:disabled {
   }
   .ch-countdown {
     animation: none;
+  }
+  .ch-developing {
+    display: none;
   }
 }
