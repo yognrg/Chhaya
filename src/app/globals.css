@@ -847,9 +847,22 @@ button:disabled {
     border-left: 1px solid var(--line);
     overflow-y: auto;
   }
+  /* The name and its controls stay pinned at the top, under the tabs, while the grid scrolls. */
   .ch-panel-control {
-    order: 2;
+    order: 1;
     align-items: flex-start;
+    position: sticky;
+    top: var(--space-6);
+    z-index: 1;
+    flex: none;
+    min-height: 0;
+    padding-bottom: var(--space-2);
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+  }
+  .ch-panel-control .ch-control-quiet {
+    align-items: flex-start;
+    text-align: left;
   }
   .ch-tabs {
     order: 0;
@@ -867,12 +880,12 @@ button:disabled {
     display: none;
   }
   .ch-looks {
-    order: 1;
+    order: 2;
     flex-wrap: wrap;
     overflow: visible;
   }
   .ch-tools {
-    order: 1;
+    order: 2;
     flex-wrap: wrap;
     justify-content: flex-start;
   }
