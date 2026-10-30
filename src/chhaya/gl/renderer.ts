@@ -6,8 +6,10 @@ export type Crop = { x: number; y: number; w: number; h: number };
 
 export type RenderOptions = {
   edit?: Edit;
-  crop?: Crop;
-  mirror?: boolean;
+  /** Output uv → source uv (see geometry.ts). Defaults to the whole source. */
+  matrix?: Float32Array;
+  /** Source pixels across the output width. Sizes the blurs. */
+  span?: number;
   bypass?: boolean;
   /** Changes the grain pattern. Keep it fixed for stills, vary it for live video. */
   grainSeed?: number;
@@ -15,7 +17,7 @@ export type RenderOptions = {
 
 type Canvas = HTMLCanvasElement | OffscreenCanvas;
 
-const FULL: Crop = { x: 0, y: 0, w: 1, h: 1 };
+const IDENTITY = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
 
 /** The crop of a source that fills an output of the given aspect, centred. */
 export function coverCrop(srcW: number, srcH: number, outW: number, outH: number): Crop {
@@ -51,6 +53,16 @@ function noise(): Uint8Array {
   return d;
 }
 
+const UNIFORMS = [
+  "uSrc", "uLut", "uNoise", "uXform", "uBypass", "uRes", "uSpan",
+  "uExposure", "uContrast", "uHighlights", "uShadows", "uWhites", "uBlacks",
+  "uTemp", "uTint", "uSaturation", "uVibrance", "uSkin", "uHsl", "uSplit", "uSplitBalance",
+  "uClarity", "uTexture", "uSharpness", "uDehaze", "uLutMix",
+  "uFade", "uHalation", "uLeak", "uLeakStyle",
+  "uGrain", "uGrainSize", "uGrainRough", "uGrainOffset",
+  "uVignette", "uVigMid", "uBlur", "uBlurMode",
+] as const;
+
 /**
  * One WebGL2 pipeline used for the live viewfinder, the edit preview,
  * look thumbnails and the full-size export, so they always match.
@@ -63,7 +75,7 @@ export class Renderer {
   private src: WebGLTexture;
   private noiseTex: WebGLTexture;
   private luts = new Map<string, WebGLTexture>();
-  private u: Record<string, WebGLUniformLocation | null> = {};
+  private u = {} as Record<(typeof UNIFORMS)[number], WebGLUniformLocation | null>;
   srcWidth = 0;
   srcHeight = 0;
 
@@ -85,13 +97,7 @@ export class Renderer {
 
     this.prog = this.link(VERT, FRAG);
     gl.useProgram(this.prog);
-    for (const name of [
-      "uSrc", "uLut", "uNoise", "uCrop", "uMirror", "uBypass", "uRes",
-      "uExposure", "uContrast", "uSaturation", "uLutMix",
-      "uGrain", "uGrainSize", "uGrainOffset", "uVignette",
-    ]) {
-      this.u[name] = gl.getUniformLocation(this.prog, name);
-    }
+    for (const name of UNIFORMS) this.u[name] = gl.getUniformLocation(this.prog, name);
     gl.uniform1i(this.u.uSrc, 0);
     gl.uniform1i(this.u.uLut, 1);
     gl.uniform1i(this.u.uNoise, 2);
@@ -99,8 +105,8 @@ export class Renderer {
     // An empty VAO: the vertex shader makes its own triangle.
     gl.bindVertexArray(gl.createVertexArray());
 
-    this.src = this.texture2D();
-    this.noiseTex = this.texture2D(gl.REPEAT);
+    this.src = this.texture2D(gl.CLAMP_TO_EDGE, gl.LINEAR_MIPMAP_LINEAR);
+    this.noiseTex = this.texture2D(gl.REPEAT, gl.LINEAR);
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, 256, 256, 0, gl.RED, gl.UNSIGNED_BYTE, noise());
   }
@@ -126,11 +132,11 @@ export class Renderer {
     return p;
   }
 
-  private texture2D(wrap: number = this.gl.CLAMP_TO_EDGE) {
+  private texture2D(wrap: number, minFilter: number) {
     const gl = this.gl;
     const t = gl.createTexture()!;
     gl.bindTexture(gl.TEXTURE_2D, t);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, minFilter);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
@@ -163,6 +169,8 @@ export class Renderer {
     // No UNPACK_FLIP_Y: browsers ignore it for ImageBitmap. The shader flips instead.
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+    // Mipmaps give clean downscaling and cheap wide blurs (clarity, halation, tilt-shift).
+    gl.generateMipmap(gl.TEXTURE_2D);
     this.srcWidth = width;
     this.srcHeight = height;
   }
@@ -178,8 +186,8 @@ export class Renderer {
 
   render(opts: RenderOptions = {}) {
     const gl = this.gl;
+    const u = this.u;
     const e = opts.edit ?? DEFAULT_EDIT;
-    const crop = opts.crop ?? FULL;
     const look = e.look === NO_LOOK ? undefined : getLook(e.look);
     const w = this.canvas.width;
     const h = this.canvas.height;
@@ -195,19 +203,43 @@ export class Renderer {
     gl.activeTexture(gl.TEXTURE2);
     gl.bindTexture(gl.TEXTURE_2D, this.noiseTex);
 
-    gl.uniform4f(this.u.uCrop, crop.x, crop.y, crop.w, crop.h);
-    gl.uniform1i(this.u.uMirror, opts.mirror ? 1 : 0);
-    gl.uniform1i(this.u.uBypass, opts.bypass ? 1 : 0);
-    gl.uniform2f(this.u.uRes, w, h);
-    gl.uniform1f(this.u.uExposure, e.exposure);
-    gl.uniform1f(this.u.uContrast, e.contrast / 100);
-    gl.uniform1f(this.u.uSaturation, e.saturation / 100);
-    gl.uniform1f(this.u.uLutMix, mix);
-    gl.uniform1f(this.u.uGrain, (look?.grain ?? 0) * mix + e.grain / 100);
-    gl.uniform1f(this.u.uGrainSize, look?.grainSize ?? 1);
+    gl.uniformMatrix3fv(u.uXform, false, opts.matrix ?? IDENTITY);
+    gl.uniform1i(u.uBypass, opts.bypass ? 1 : 0);
+    gl.uniform2f(u.uRes, w, h);
+    gl.uniform1f(u.uSpan, opts.span ?? this.srcWidth);
+
+    gl.uniform1f(u.uExposure, e.exposure);
+    gl.uniform1f(u.uContrast, e.contrast / 100);
+    gl.uniform1f(u.uHighlights, e.highlights / 100);
+    gl.uniform1f(u.uShadows, e.shadows / 100);
+    gl.uniform1f(u.uWhites, e.whites / 100);
+    gl.uniform1f(u.uBlacks, e.blacks / 100);
+    gl.uniform1f(u.uTemp, e.temperature / 100);
+    gl.uniform1f(u.uTint, e.tint / 100);
+    gl.uniform1f(u.uSaturation, e.saturation / 100);
+    gl.uniform1f(u.uVibrance, e.vibrance / 100);
+    gl.uniform1f(u.uSkin, e.skin / 100);
+    gl.uniform1fv(u.uHsl, e.hsl.map((v) => v / 100));
+    gl.uniform4f(u.uSplit, e.splitShadowHue / 360, e.splitShadow / 100, e.splitHighHue / 360, e.splitHigh / 100);
+    gl.uniform1f(u.uSplitBalance, e.splitBalance / 100);
+    gl.uniform1f(u.uClarity, e.clarity / 100);
+    gl.uniform1f(u.uTexture, e.texture / 100);
+    gl.uniform1f(u.uSharpness, e.sharpness / 100);
+    gl.uniform1f(u.uDehaze, e.dehaze / 100);
+    gl.uniform1f(u.uLutMix, mix);
+    gl.uniform1f(u.uFade, (e.fade / 100) * 0.3);
+    gl.uniform1f(u.uHalation, Math.min(1, (look?.halation ?? 0) * mix + e.halation / 100));
+    gl.uniform1f(u.uLeak, e.leak / 100);
+    gl.uniform1i(u.uLeakStyle, e.leakStyle);
+    gl.uniform1f(u.uGrain, (look?.grain ?? 0) * mix + e.grain / 100);
+    gl.uniform1f(u.uGrainSize, (look?.grainSize ?? 1) * (0.4 + (e.grainSize / 100) * 1.2));
+    gl.uniform1f(u.uGrainRough, e.grainRough / 100);
     const seed = opts.grainSeed ?? 0;
-    gl.uniform2f(this.u.uGrainOffset, fract(seed * 0.618), fract(seed * 0.414));
-    gl.uniform1f(this.u.uVignette, e.vignette / 100);
+    gl.uniform2f(u.uGrainOffset, fract(seed * 0.618), fract(seed * 0.414));
+    gl.uniform1f(u.uVignette, Math.max(-1, Math.min(1, (look?.vignette ?? 0) * mix + e.vignette / 100)));
+    gl.uniform1f(u.uVigMid, 0.05 + (e.vignetteMid / 100) * 0.7);
+    gl.uniform1f(u.uBlur, e.blur / 100);
+    gl.uniform1i(u.uBlurMode, e.blurMode);
 
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }

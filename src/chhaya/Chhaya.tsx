@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { type Photo, photoFromFile } from "./camera";
-import { Camera } from "./components/Camera";
-import { Develop } from "./components/Develop";
+import { Camera, type CameraMode } from "./components/Camera";
+import { Develop, type Tab } from "./components/Develop";
+import { DEFAULT_EDIT, type Edit, mergeEdit } from "./edit";
 import { Intro } from "./components/Intro";
 import { NO_LOOK } from "./looks";
 
@@ -16,9 +17,20 @@ export function Chhaya() {
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [shot, setShot] = useState(0);
   const [look, setLook] = useState(NO_LOOK);
+  const [mode, setMode] = useState<CameraMode>("photo");
+  const [start, setStart] = useState<{ edit: Edit; tab: Tab }>({ edit: DEFAULT_EDIT, tab: "looks" });
   const [error, setError] = useState<string | null>(null);
 
-  const open = useCallback((p: Photo, origin: "intro" | "camera") => {
+  const open = useCallback((p: Photo, origin: "intro" | "camera", shotMode: CameraMode = "photo") => {
+    // The camera's look carries over; ASCII and strip shots open ready to go.
+    setStart({
+      edit: mergeEdit(DEFAULT_EDIT, {
+        look: origin === "camera" ? look : NO_LOOK,
+        ascii: { enabled: shotMode === "ascii" },
+        frame: { kind: p.strip > 1 ? "strip" : "none" },
+      }),
+      tab: shotMode === "ascii" ? "ascii" : p.strip > 1 ? "print" : "looks",
+    });
     setPhoto((old) => {
       old?.bitmap.close();
       return p;
@@ -26,7 +38,7 @@ export function Chhaya() {
     setShot((n) => n + 1);
     setFrom(origin);
     setScreen("develop");
-  }, []);
+  }, [look]);
 
   const upload = useCallback(
     (file: File, origin: "intro" | "camera") => {
@@ -60,14 +72,16 @@ export function Chhaya() {
       {screen === "camera" && (
         <Camera
           look={look}
+          mode={mode}
+          onModeChange={setMode}
           onLookChange={setLook}
-          onCapture={(p) => open(p, "camera")}
+          onCapture={(p, m) => open(p, "camera", m)}
           onUpload={(f) => upload(f, "camera")}
           onClose={() => setScreen("intro")}
         />
       )}
       {screen === "develop" && photo && (
-        <Develop key={shot} photo={photo} initialLook={look} onBack={() => setScreen(from)} />
+        <Develop key={shot} photo={photo} initialEdit={start.edit} initialTab={start.tab} onBack={() => setScreen(from)} />
       )}
       {error && (
         <p className="ch-toast" role="alert" onClick={() => setError(null)}>

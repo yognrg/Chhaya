@@ -13,6 +13,8 @@ type Props = {
   defaultValue: number;
   decimals: number;
   signed?: boolean;
+  /** Shows the track as a hue rainbow (split tone hues). */
+  hue?: boolean;
   onChange: (v: number) => void;
 };
 
@@ -21,7 +23,7 @@ type Props = {
  * range input, so arrow keys, screen readers and value text all work.
  */
 export function HairlineSlider({
-  label, value, min, max, step, defaultValue, decimals, signed = true, onChange,
+  label, value, min, max, step, defaultValue, decimals, signed = true, hue, onChange,
 }: Props) {
   const [dragging, setDragging] = useState(false);
   const lastTap = useRef(0);
@@ -29,7 +31,7 @@ export function HairlineSlider({
   const locked = useRef(false);
   const pct = ((value - min) / (max - min)) * 100;
   const originPct = ((Math.min(Math.max(0, min), max) - min) / (max - min)) * 100;
-  const hasCentre = min < 0 && max > 0;
+  const hasCentre = min < 0 && max > 0 && !hue;
   const text = formatValue(value, decimals, signed);
 
   const set = (v: number) => {
@@ -50,9 +52,10 @@ export function HairlineSlider({
     <div className={`ch-slider${dragging ? " is-dragging" : ""}`}>
       <div className="ch-slider-value" aria-hidden="true">{text}</div>
       <div className="ch-slider-track">
-        <div className="ch-slider-line" />
+        <div className={`ch-slider-line${hue ? " is-hue" : ""}`} />
         {hasCentre && <div className="ch-slider-tick" style={{ left: `${originPct}%` }} />}
         <div
+          hidden={hue}
           className="ch-slider-fill"
           style={{ left: `${Math.min(pct, originPct)}%`, width: `${Math.abs(pct - originPct)}%` }}
         />

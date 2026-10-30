@@ -13,19 +13,23 @@ npm run dev
 
 Open http://localhost:3000. The camera needs `localhost` or HTTPS.
 
-## Status: Phase 1 (camera and core pipeline)
+## What's in it
 
-- **Shoot:** live viewfinder with the chosen look applied, swipe (or ← →) to change looks, 3-2-1 countdown (toggle), white flash, front/back switch, upload or drag and drop a photo instead. The camera is only requested after tapping "start camera".
-- **Develop:** 10 film looks with strength 0–12 (tap a look twice), Exposure, Contrast, Saturation, Grain and Vignette on hairline sliders (double-tap to reset), pink dot on anything changed, hold the photo (or `\`) to compare, undo/redo (⌘Z / ⇧⌘Z) and reset.
-- **Save:** full-size PNG or JPG through the same GPU pipeline as the preview. Share sheet on phones, download on desktop.
-- **Layout:** mobile first; on desktop the photo sits in the centre with tools in a slim right column. Follows the device's light/dark setting.
+- **Camera:** Photo, Strip (4 shots, booth style) and live ASCII modes. Looks apply live; swipe to change. Countdown, flash, front/back camera, upload or drag and drop.
+- **Presets:** the 16 from the plan, plus "Save" to keep your own (stored on this device only).
+- **Looks:** all 40 film looks (K, F, S, P, C, N, T families) with strength 0–12.
+- **Adjust:** 22 tools in six groups. Light: exposure, contrast, highlights, shadows, whites/blacks. Colour: temperature, tint, saturation, vibrance, skin tone, HSL (8 colours), split tone. Detail: clarity, texture, sharpness, dehaze. Film: grain (amount, size, roughness), fade, halation, light leak (4 styles). Effects: vignette (amount, midpoint), blur/tilt-shift. Crop: 8 aspect ratios, rotate, flip, straighten.
+- **ASCII:** 8 character sets (standard, dense, blocks, braille, binary, matrix, moons, custom), 40–240 columns, 7 colour styles (incl. duotone, terminal, amber), brightness/contrast/gamma, edge lines, 4 dithering modes (ordered, Floyd–Steinberg, Atkinson), invert, 4 fonts, background (black, paper, transparent, custom), CRT glow. Export PNG, TXT, HTML or copy the text.
+- **Print:** Instant 600, SX-70, Mini, Wide, photo strip, 35mm film and plain border, with Cirka-style caption, orange date stamp, paper texture and a develop-from-white animation.
+- Hold the photo to compare, undo/redo, full-size export through the same pipeline as the preview.
 
-Next, Phase 2 adds all 22 adjustments, all 40 looks and the 16 presets. Phase 3 adds ASCII and frames, and Phase 4 is polish (see the plan).
+Still to come: tone curve editor, ASCII GIF loop, Studio gallery, sounds and haptics polish.
 
 ## How it's built
 
 - Next.js 16 + React 19, no UI libraries.
-- `src/chhaya/gl/` is a raw WebGL2 shader pipeline: exposure → contrast → saturation → film LUT → grain → vignette. The viewfinder, preview, thumbnails and export all use it, so they look identical.
+- `src/chhaya/gl/` is a raw WebGL2 shader pipeline, one pass: geometry → detail → white balance and exposure → tone → colour and HSL → film LUT → split tone → fade → halation → leak → grain → vignette. Blurs read the source's mipmaps, so it stays live on phones.
+- `ascii.ts` turns the graded frame into characters; `frames.ts` lays out the prints; `finish.ts` chains them. The viewfinder, preview, thumbnails and export all use it, so they look identical.
 - `src/chhaya/looks.ts`: each look is a small set of colour parameters baked into a 33³ 3D LUT on first use. Hand-graded LUT PNGs can replace the baked ones later without changes to the pipeline.
 - `src/chhaya/edit.ts`: an edit is plain data (look, strength and tool values), which makes undo, presets and saving easy.
 - Grain samples a pre-made noise texture and scales with output size, so the saved photo matches the preview.
