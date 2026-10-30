@@ -151,7 +151,9 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
     };
   }, []);
 
-  const mirror = facing === "user";
+  // Mirror defaults to on for the front camera (like a mirror) and off for the back; either can be switched.
+  const [mirror, setMirror] = useState(false);
+  useEffect(() => setMirror(facing === "user"), [facing]);
   const aspect = mode === "strip" ? STRIP_ASPECT : CAPTURE_ASPECT;
 
   const grab = useCallback(async () => {
@@ -259,6 +261,16 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
           <span className="ch-look-name">{current?.name ?? "Original"}</span>
           <span className="ch-label">{current?.code ?? "no look"}</span>
         </div>
+        <div className="ch-top-actions">
+        <button
+          className={`ch-icon-btn${mirror ? " is-on" : ""}`}
+          onClick={() => setMirror((m) => !m)}
+          aria-label={mirror ? "Mirrored, tap for normal" : "Normal, tap to mirror"}
+          aria-pressed={mirror}
+          title={mirror ? "mirrored" : "normal"}
+        >
+          <Icon name="flipH" />
+        </button>
         <button
           className={`ch-icon-btn${timer ? " is-on" : ""}`}
           onClick={() => setTimer((t) => !t)}
@@ -268,6 +280,7 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
           <Icon name="timer" />
           <span className="ch-icon-badge">{timer ? "3" : ""}</span>
         </button>
+        </div>
       </header>
 
       <div
