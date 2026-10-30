@@ -6,10 +6,12 @@ type Props = {
   onFile: (file: File) => void;
   className?: string;
   ariaLabel?: string;
+  /** File types to offer; photos by default. */
+  accept?: string;
   children: ReactNode;
 };
 
-export function UploadButton({ onFile, className, ariaLabel, children }: Props) {
+export function UploadButton({ onFile, className, ariaLabel, accept = "image/*", children }: Props) {
   const input = useRef<HTMLInputElement>(null);
   return (
     <>
@@ -19,7 +21,7 @@ export function UploadButton({ onFile, className, ariaLabel, children }: Props) 
       <input
         ref={input}
         type="file"
-        accept="image/*"
+        accept={accept}
         hidden
         onChange={(e) => {
           const f = e.target.files?.[0];

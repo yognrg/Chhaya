@@ -39,7 +39,7 @@ uniform vec4 uSplit;       // shadow hue, shadow amount, highlight hue, highligh
 uniform float uSplitBalance;
 uniform float uClarity, uTexture, uSharpness, uDehaze;
 uniform float uLutMix;
-uniform float uFade, uHalation, uLeak;
+uniform float uFade, uDust, uHalation, uLeak;
 uniform int uLeakStyle;
 uniform float uGrain, uGrainSize, uGrainRough;
 uniform vec2 uGrainOffset;
@@ -198,6 +198,18 @@ void main() {
     else leak = vec3(1.0, 0.5, 0.15) * exp(-length(uv - vec2(0.0, 0.3)) * 3.0)
               + vec3(0.9, 0.2, 0.6) * exp(-length(uv - vec2(1.0, 0.75)) * 3.5);
     g = screen(g, clamp(leak, 0.0, 1.0) * uLeak);
+  }
+
+  // Dust: sparse specks (two noise samples must both be high) and rare hairline
+  // scratches, placed in photo space so preview and export match.
+  if (uDust > 0.0) {
+    float aspect = uRes.x / uRes.y;
+    vec2 q = uv * vec2(aspect, 1.0);
+    float m = texture(uNoise, q * 1.7 + 0.21).r * texture(uNoise, q * 2.3 + 0.67).r;
+    float specks = smoothstep(0.88 - uDust * 0.08, 0.98 - uDust * 0.06, m);
+    float scratch = smoothstep(0.992 - uDust * 0.006, 1.0, texture(uNoise, vec2(uv.x * 2.3 + 0.17, 0.5)).r)
+                  * smoothstep(0.3, 0.9, texture(uNoise, vec2(uv.x * 2.3, uv.y * 0.35)).r);
+    g = mix(g, vec3(0.94, 0.93, 0.9), clamp((specks + scratch * 0.6) * (0.4 + uDust * 0.6), 0.0, 0.9));
   }
 
   // Grain: a pre-made noise texture, strongest in the mid-tones like real film.

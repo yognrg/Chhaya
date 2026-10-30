@@ -1,0 +1,1117 @@
+[
+ {
+  "id": "sunday",
+  "name": "Sunday Morning",
+  "category": "Soft",
+  "goodFor": "Portraits, cafés",
+  "intensity": 100,
+  "edit": {
+   "look": "k1",
+   "exposure": 0.3,
+   "fade": 15,
+   "grain": 10,
+   "grainSize": 30
+  }
+ },
+ {
+  "id": "monsoon",
+  "name": "Monsoon",
+  "category": "Film",
+  "goodFor": "Rainy streets, hills",
+  "intensity": 100,
+  "edit": {
+   "look": "f3",
+   "clarity": -10,
+   "vignette": 20,
+   "splitShadow": 30,
+   "splitShadowHue": 200,
+   "splitHigh": 15,
+   "splitHighHue": 180
+  }
+ },
+ {
+  "id": "digicam",
+  "name": "90s Digicam",
+  "category": "Vintage",
+  "goodFor": "Party, friends",
+  "intensity": 100,
+  "edit": {
+   "look": "n1",
+   "exposure": 0.3,
+   "contrast": 15,
+   "sharpness": 40,
+   "frame": {
+    "kind": "border",
+    "date": true,
+    "borderColor": "white",
+    "borderSize": 0
+   }
+  }
+ },
+ {
+  "id": "golden",
+  "name": "Golden Hour",
+  "category": "Film",
+  "goodFor": "Sunsets",
+  "intensity": 100,
+  "edit": {
+   "look": "k2",
+   "temperature": 20,
+   "halation": 30
+  }
+ },
+ {
+  "id": "nightwalk",
+  "name": "Night Walk",
+  "category": "Cinematic",
+  "goodFor": "City at night",
+  "intensity": 100,
+  "edit": {
+   "look": "k5",
+   "shadows": 20,
+   "grain": 25,
+   "grainSize": 50
+  }
+ },
+ {
+  "id": "mumbai",
+  "name": "Mumbai Local",
+  "category": "Film",
+  "goodFor": "Street, documentary",
+  "intensity": 100,
+  "edit": {
+   "look": "f1",
+   "contrast": 15,
+   "grain": 25,
+   "grainSize": 50
+  }
+ },
+ {
+  "id": "pastel",
+  "name": "Soft Pastel",
+  "category": "Soft",
+  "goodFor": "Flowers, fashion",
+  "intensity": 100,
+  "edit": {
+   "look": "f4",
+   "highlights": -30,
+   "fade": 25
+  }
+ },
+ {
+  "id": "noir",
+  "name": "Film Noir",
+  "category": "Black and white",
+  "goodFor": "Moody black and white",
+  "intensity": 100,
+  "edit": {
+   "look": "k6",
+   "contrast": 30,
+   "vignette": 35
+  }
+ },
+ {
+  "id": "instant",
+  "name": "Instant Memory",
+  "category": "Vintage",
+  "goodFor": "Prints",
+  "intensity": 100,
+  "edit": {
+   "look": "t3",
+   "frame": {
+    "kind": "instant",
+    "caption": "a moment"
+   }
+  }
+ },
+ {
+  "id": "strip",
+  "name": "Photo Strip",
+  "category": "Vintage",
+  "goodFor": "Photo booth fun",
+  "intensity": 100,
+  "edit": {
+   "look": "t6",
+   "frame": {
+    "kind": "strip"
+   }
+  }
+ },
+ {
+  "id": "neon",
+  "name": "Neon Dreams",
+  "category": "Cinematic",
+  "goodFor": "Concerts, neon signs",
+  "intensity": 100,
+  "edit": {
+   "look": "s1",
+   "saturation": 15,
+   "halation": 40
+  }
+ },
+ {
+  "id": "slides",
+  "name": "Slide Show",
+  "category": "Film",
+  "goodFor": "Travel",
+  "intensity": 100,
+  "edit": {
+   "look": "k7",
+   "frame": {
+    "kind": "film"
+   }
+  }
+ },
+ {
+  "id": "cinema",
+  "name": "Cinema",
+  "category": "Cinematic",
+  "goodFor": "Cinematic stills",
+  "intensity": 100,
+  "edit": {
+   "look": "f5",
+   "grain": 10,
+   "grainSize": 30,
+   "geometry": {
+    "aspect": "2.39:1"
+   }
+  }
+ },
+ {
+  "id": "lofi",
+  "name": "Lo-fi Toy",
+  "category": "Vintage",
+  "goodFor": "Experimental",
+  "intensity": 100,
+  "edit": {
+   "look": "t1",
+   "vignette": 60,
+   "vignetteMid": 25,
+   "leak": 45,
+   "leakStyle": 1
+  }
+ },
+ {
+  "id": "terminal",
+  "name": "Terminal",
+  "category": "Black and white",
+  "goodFor": "Profile pictures",
+  "intensity": 100,
+  "code": "TX",
+  "edit": {
+   "ascii": {
+    "enabled": true,
+    "colour": "terminal",
+    "background": "black",
+    "cols": 120,
+    "crt": true,
+    "charset": "standard"
+   }
+  }
+ },
+ {
+  "id": "typewriter",
+  "name": "Typewriter",
+  "category": "Black and white",
+  "goodFor": "Posters",
+  "intensity": 100,
+  "code": "TW",
+  "edit": {
+   "ascii": {
+    "enabled": true,
+    "colour": "mono",
+    "background": "paper",
+    "charset": "dense",
+    "cols": 140,
+    "font": "courier"
+   }
+  }
+ },
+ {
+  "id": "faded-film",
+  "name": "Faded Film",
+  "category": "Vintage",
+  "goodFor": "Lifted blacks, everyday nostalgia",
+  "intensity": 90,
+  "edit": {
+   "look": "v1",
+   "fade": 20,
+   "grain": 15
+  }
+ },
+ {
+  "id": "polaroid",
+  "name": "Polaroid",
+  "category": "Vintage",
+  "goodFor": "Instant print with border",
+  "intensity": 100,
+  "edit": {
+   "look": "v9",
+   "frame": {
+    "kind": "instant"
+   },
+   "vignette": 10
+  }
+ },
+ {
+  "id": "sepia",
+  "name": "Sepia",
+  "category": "Vintage",
+  "goodFor": "Old portraits, travel",
+  "intensity": 100,
+  "edit": {
+   "look": "v2",
+   "vignette": 25,
+   "dust": 12,
+   "grain": 15
+  }
+ },
+ {
+  "id": "cross-process",
+  "name": "Cross Process",
+  "category": "Vintage",
+  "goodFor": "Bold colour, summer",
+  "intensity": 90,
+  "edit": {
+   "look": "v3",
+   "vignette": 15
+  }
+ },
+ {
+  "id": "bleach-bypass",
+  "name": "Bleach Bypass",
+  "category": "Cinematic",
+  "goodFor": "Gritty, dramatic portraits",
+  "intensity": 90,
+  "edit": {
+   "look": "v4",
+   "clarity": 15
+  }
+ },
+ {
+  "id": "warm-70s",
+  "name": "Warm 70s",
+  "category": "Vintage",
+  "goodFor": "Family photos, sunsets",
+  "intensity": 90,
+  "edit": {
+   "look": "v5",
+   "grain": 15,
+   "leak": 20,
+   "leakStyle": 0
+  }
+ },
+ {
+  "id": "cool-90s",
+  "name": "Cool 90s",
+  "category": "Vintage",
+  "goodFor": "Friends, flash photos",
+  "intensity": 100,
+  "edit": {
+   "look": "v6",
+   "frame": {
+    "date": true
+   }
+  }
+ },
+ {
+  "id": "expired",
+  "name": "Expired Film",
+  "category": "Vintage",
+  "goodFor": "Experimental, dreamy",
+  "intensity": 85,
+  "edit": {
+   "look": "v7",
+   "grain": 20,
+   "dust": 15,
+   "leak": 25,
+   "leakStyle": 3
+  }
+ },
+ {
+  "id": "cream-instant",
+  "name": "Cream Instant",
+  "category": "Vintage",
+  "goodFor": "Soft instant print",
+  "intensity": 100,
+  "edit": {
+   "look": "v8",
+   "frame": {
+    "kind": "sx70"
+   }
+  }
+ },
+ {
+  "id": "new-instant",
+  "name": "New Instant",
+  "category": "Vintage",
+  "goodFor": "Modern instant print",
+  "intensity": 100,
+  "edit": {
+   "look": "v10",
+   "frame": {
+    "kind": "mini"
+   }
+  }
+ },
+ {
+  "id": "autumn",
+  "name": "Autumn Roll",
+  "category": "Vintage",
+  "goodFor": "Leaves, golden light",
+  "intensity": 90,
+  "edit": {
+   "look": "v11"
+  }
+ },
+ {
+  "id": "golden-sunset",
+  "name": "Golden Sunset",
+  "category": "Soft",
+  "goodFor": "Sunsets, beaches",
+  "intensity": 85,
+  "edit": {
+   "look": "v12",
+   "halation": 15
+  }
+ },
+ {
+  "id": "city-heat",
+  "name": "City Heat",
+  "category": "Film",
+  "goodFor": "Markets, street colour",
+  "intensity": 85,
+  "edit": {
+   "look": "v13"
+  }
+ },
+ {
+  "id": "film-l1",
+  "name": "Portrait 400",
+  "category": "Film",
+  "goodFor": "Portraits, skin",
+  "intensity": 100,
+  "edit": {
+   "look": "l1"
+  }
+ },
+ {
+  "id": "film-l2",
+  "name": "Vivid 100",
+  "category": "Film",
+  "goodFor": "Landscapes, colour",
+  "intensity": 100,
+  "edit": {
+   "look": "l2"
+  }
+ },
+ {
+  "id": "film-l3",
+  "name": "Consumer Gold",
+  "category": "Film",
+  "goodFor": "Everyday, holidays",
+  "intensity": 100,
+  "edit": {
+   "look": "l3"
+  }
+ },
+ {
+  "id": "film-l4",
+  "name": "Slide 50",
+  "category": "Film",
+  "goodFor": "Landscapes, nature",
+  "intensity": 100,
+  "edit": {
+   "look": "l4"
+  }
+ },
+ {
+  "id": "film-l5",
+  "name": "Slide 100",
+  "category": "Film",
+  "goodFor": "Travel, products",
+  "intensity": 100,
+  "edit": {
+   "look": "l5"
+  }
+ },
+ {
+  "id": "film-l6",
+  "name": "Soft Slide",
+  "category": "Film",
+  "goodFor": "Portraits, weddings",
+  "intensity": 100,
+  "edit": {
+   "look": "l6"
+  }
+ },
+ {
+  "id": "film-l7",
+  "name": "Everyday 400",
+  "category": "Film",
+  "goodFor": "Everyday, snapshots",
+  "intensity": 100,
+  "edit": {
+   "look": "l7"
+  }
+ },
+ {
+  "id": "bw-b1",
+  "name": "Press 400",
+  "category": "Black and white",
+  "goodFor": "Street, documentary",
+  "intensity": 100,
+  "edit": {
+   "look": "b1"
+  }
+ },
+ {
+  "id": "bw-b2",
+  "name": "Silver 100",
+  "category": "Black and white",
+  "goodFor": "Portraits, architecture",
+  "intensity": 100,
+  "edit": {
+   "look": "b2"
+  }
+ },
+ {
+  "id": "bw-b3",
+  "name": "Street 400",
+  "category": "Black and white",
+  "goodFor": "Street, everyday",
+  "intensity": 100,
+  "edit": {
+   "look": "b3"
+  }
+ },
+ {
+  "id": "bw-b4",
+  "name": "Night 3200",
+  "category": "Black and white",
+  "goodFor": "Night, concerts",
+  "intensity": 100,
+  "edit": {
+   "look": "b4"
+  }
+ },
+ {
+  "id": "bw-b5",
+  "name": "Fine 50",
+  "category": "Black and white",
+  "goodFor": "Bright days, detail",
+  "intensity": 100,
+  "edit": {
+   "look": "b5"
+  }
+ },
+ {
+  "id": "bw-b6",
+  "name": "Blue Mood",
+  "category": "Black and white",
+  "goodFor": "Art prints",
+  "intensity": 100,
+  "edit": {
+   "look": "b6"
+  }
+ },
+ {
+  "id": "bw-b7",
+  "name": "Envy",
+  "category": "Black and white",
+  "goodFor": "Art prints",
+  "intensity": 100,
+  "edit": {
+   "look": "b7"
+  }
+ },
+ {
+  "id": "cine-m1",
+  "name": "Teal & Orange",
+  "category": "Cinematic",
+  "goodFor": "Travel, portraits",
+  "intensity": 100,
+  "edit": {
+   "look": "m1",
+   "geometry": {
+    "aspect": "16:9"
+   }
+  }
+ },
+ {
+  "id": "cine-m2",
+  "name": "Blockbuster",
+  "category": "Cinematic",
+  "goodFor": "Action, sport",
+  "intensity": 100,
+  "edit": {
+   "look": "m2"
+  }
+ },
+ {
+  "id": "cine-m3",
+  "name": "Code Green",
+  "category": "Cinematic",
+  "goodFor": "Night, tech",
+  "intensity": 100,
+  "edit": {
+   "look": "m3"
+  }
+ },
+ {
+  "id": "cine-m4",
+  "name": "Desert Orange",
+  "category": "Cinematic",
+  "goodFor": "Desert, roads",
+  "intensity": 100,
+  "edit": {
+   "look": "m4",
+   "geometry": {
+    "aspect": "16:9"
+   }
+  }
+ },
+ {
+  "id": "cine-m5",
+  "name": "Amber Haze",
+  "category": "Cinematic",
+  "goodFor": "Cities, fog",
+  "intensity": 100,
+  "edit": {
+   "look": "m5",
+   "geometry": {
+    "aspect": "16:9"
+   }
+  }
+ },
+ {
+  "id": "cine-m6",
+  "name": "Moonlight",
+  "category": "Cinematic",
+  "goodFor": "Night, water",
+  "intensity": 100,
+  "edit": {
+   "look": "m6"
+  }
+ },
+ {
+  "id": "cine-m7",
+  "name": "Stairwell",
+  "category": "Cinematic",
+  "goodFor": "Urban, moody",
+  "intensity": 100,
+  "edit": {
+   "look": "m7"
+  }
+ },
+ {
+  "id": "cine-m8",
+  "name": "Pastel Symmetry",
+  "category": "Cinematic",
+  "goodFor": "Symmetry, interiors",
+  "intensity": 100,
+  "edit": {
+   "look": "m8"
+  }
+ },
+ {
+  "id": "cine-m9",
+  "name": "Hero",
+  "category": "Cinematic",
+  "goodFor": "Bright scenes",
+  "intensity": 100,
+  "edit": {
+   "look": "m9"
+  }
+ },
+ {
+  "id": "cine-m10",
+  "name": "Night Steel",
+  "category": "Cinematic",
+  "goodFor": "Dark, moody",
+  "intensity": 100,
+  "edit": {
+   "look": "m10"
+  }
+ },
+ {
+  "id": "soft-a1",
+  "name": "Calm",
+  "category": "Soft",
+  "goodFor": "Interiors, calm days",
+  "intensity": 100,
+  "edit": {
+   "look": "a1"
+  }
+ },
+ {
+  "id": "soft-a2",
+  "name": "Romantic",
+  "category": "Soft",
+  "goodFor": "Couples, portraits",
+  "intensity": 100,
+  "edit": {
+   "look": "a2"
+  }
+ },
+ {
+  "id": "soft-a3",
+  "name": "Spring",
+  "category": "Soft",
+  "goodFor": "Flowers, parks",
+  "intensity": 100,
+  "edit": {
+   "look": "a3"
+  }
+ },
+ {
+  "id": "soft-a4",
+  "name": "Nordic",
+  "category": "Soft",
+  "goodFor": "Snow, minimal",
+  "intensity": 100,
+  "edit": {
+   "look": "a4"
+  }
+ },
+ {
+  "id": "soft-a5",
+  "name": "Melancholy",
+  "category": "Soft",
+  "goodFor": "Rainy days",
+  "intensity": 100,
+  "edit": {
+   "look": "a5"
+  }
+ },
+ {
+  "id": "soft-a6",
+  "name": "Soft Gingham",
+  "category": "Soft",
+  "goodFor": "Everyday, subtle",
+  "intensity": 100,
+  "edit": {
+   "look": "a6"
+  }
+ },
+ {
+  "id": "soft-a7",
+  "name": "Soft Slumber",
+  "category": "Soft",
+  "goodFor": "Hazy afternoons",
+  "intensity": 100,
+  "edit": {
+   "look": "a7"
+  }
+ },
+ {
+  "id": "ig-1977",
+  "name": "1977",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i1"
+  }
+ },
+ {
+  "id": "ig-aden",
+  "name": "Aden",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i2"
+  }
+ },
+ {
+  "id": "ig-amaro",
+  "name": "Amaro",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i3"
+  }
+ },
+ {
+  "id": "ig-ashby",
+  "name": "Ashby",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i4"
+  }
+ },
+ {
+  "id": "ig-brannan",
+  "name": "Brannan",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i5"
+  }
+ },
+ {
+  "id": "ig-brooklyn",
+  "name": "Brooklyn",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i6"
+  }
+ },
+ {
+  "id": "ig-charmes",
+  "name": "Charmes",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i7"
+  }
+ },
+ {
+  "id": "ig-clarendon",
+  "name": "Clarendon",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i8"
+  }
+ },
+ {
+  "id": "ig-crema",
+  "name": "Crema",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i9"
+  }
+ },
+ {
+  "id": "ig-dogpatch",
+  "name": "Dogpatch",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i10"
+  }
+ },
+ {
+  "id": "ig-earlybird",
+  "name": "Earlybird",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i11"
+  }
+ },
+ {
+  "id": "ig-gingham",
+  "name": "Gingham",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i12"
+  }
+ },
+ {
+  "id": "ig-ginza",
+  "name": "Ginza",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i13"
+  }
+ },
+ {
+  "id": "ig-hefe",
+  "name": "Hefe",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i14"
+  }
+ },
+ {
+  "id": "ig-helena",
+  "name": "Helena",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i15"
+  }
+ },
+ {
+  "id": "ig-hudson",
+  "name": "Hudson",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i16"
+  }
+ },
+ {
+  "id": "ig-inkwell",
+  "name": "Inkwell",
+  "category": "Black and white",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i17"
+  }
+ },
+ {
+  "id": "ig-juno",
+  "name": "Juno",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i18"
+  }
+ },
+ {
+  "id": "ig-kelvin",
+  "name": "Kelvin",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i19"
+  }
+ },
+ {
+  "id": "ig-lark",
+  "name": "Lark",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i20"
+  }
+ },
+ {
+  "id": "ig-lo-fi",
+  "name": "Lo-Fi",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i21"
+  }
+ },
+ {
+  "id": "ig-ludwig",
+  "name": "Ludwig",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i22"
+  }
+ },
+ {
+  "id": "ig-maven",
+  "name": "Maven",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i23"
+  }
+ },
+ {
+  "id": "ig-mayfair",
+  "name": "Mayfair",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i24"
+  }
+ },
+ {
+  "id": "ig-moon",
+  "name": "Moon",
+  "category": "Black and white",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i25"
+  }
+ },
+ {
+  "id": "ig-nashville",
+  "name": "Nashville",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i26"
+  }
+ },
+ {
+  "id": "ig-perpetua",
+  "name": "Perpetua",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i27"
+  }
+ },
+ {
+  "id": "ig-poprocket",
+  "name": "Poprocket",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i28"
+  }
+ },
+ {
+  "id": "ig-reyes",
+  "name": "Reyes",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i29"
+  }
+ },
+ {
+  "id": "ig-rise",
+  "name": "Rise",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i30"
+  }
+ },
+ {
+  "id": "ig-sierra",
+  "name": "Sierra",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i31"
+  }
+ },
+ {
+  "id": "ig-skyline",
+  "name": "Skyline",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i32"
+  }
+ },
+ {
+  "id": "ig-slumber",
+  "name": "Slumber",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i33"
+  }
+ },
+ {
+  "id": "ig-stinson",
+  "name": "Stinson",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i34"
+  }
+ },
+ {
+  "id": "ig-sutro",
+  "name": "Sutro",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i35"
+  }
+ },
+ {
+  "id": "ig-toaster",
+  "name": "Toaster",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i36"
+  }
+ },
+ {
+  "id": "ig-valencia",
+  "name": "Valencia",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i37"
+  }
+ },
+ {
+  "id": "ig-vesper",
+  "name": "Vesper",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i38"
+  }
+ },
+ {
+  "id": "ig-walden",
+  "name": "Walden",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i39"
+  }
+ },
+ {
+  "id": "ig-willow",
+  "name": "Willow",
+  "category": "Black and white",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i40"
+  }
+ },
+ {
+  "id": "ig-x-pro-ii",
+  "name": "X-Pro II",
+  "category": "Instagram style",
+  "goodFor": "Instagram-style look",
+  "intensity": 100,
+  "edit": {
+   "look": "i41"
+  }
+ }
+]

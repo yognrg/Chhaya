@@ -1,50 +1,92 @@
 import { DEFAULT_EDIT, type Edit, mergeEdit } from "./edit";
+import PRESET_DATA from "./data/presets.json";
+import { getLook, NO_LOOK } from "./looks";
+
+export const CATEGORIES = ["Vintage", "Film", "Instagram style", "Cinematic", "Black and white", "Soft"] as const;
+export type Category = (typeof CATEGORIES)[number] | "Mine";
 
 /** A preset is a look plus adjustments plus a frame (or ASCII), saved together. */
 export type Preset = {
   id: string;
   name: string;
   goodFor: string;
+  category: Category;
+  /** Default intensity, 0 … 100. */
+  intensity: number;
   /** Look code shown on the thumbnail. */
   code: string;
   edit: Edit;
   custom?: boolean;
 };
 
-const p = (id: string, name: string, goodFor: string, code: string, patch: Parameters<typeof mergeEdit>[1]): Preset => ({
-  id,
-  name,
-  goodFor,
-  code,
-  edit: mergeEdit(DEFAULT_EDIT, patch),
+type PresetRow = {
+  id: string;
+  name: string;
+  category: Category;
+  goodFor: string;
+  intensity: number;
+  code?: string;
+  edit: Parameters<typeof mergeEdit>[1];
+};
+
+/** Presets are data (data/presets.json): adding one means adding one entry. */
+export const PRESETS: Preset[] = (PRESET_DATA as PresetRow[]).map((r) => {
+  const edit = mergeEdit(DEFAULT_EDIT, r.edit);
+  return {
+    id: r.id,
+    name: r.name,
+    goodFor: r.goodFor,
+    category: r.category,
+    intensity: r.intensity,
+    code: r.code ?? getLook(edit.look)?.code ?? "—",
+    edit,
+  };
 });
 
-export const PRESETS: Preset[] = [
-  p("sunday", "Sunday Morning", "Portraits, cafés", "K1", { look: "k1", exposure: 0.3, fade: 15, grain: 10, grainSize: 30 }),
-  p("monsoon", "Monsoon", "Rainy streets, hills", "F3", {
-    look: "f3", clarity: -10, vignette: 20, splitShadow: 30, splitShadowHue: 200, splitHigh: 15, splitHighHue: 180,
-  }),
-  p("digicam", "90s Digicam", "Party, friends", "N1", {
-    look: "n1", exposure: 0.3, contrast: 15, sharpness: 40, frame: { kind: "border", date: true, borderColor: "white", borderSize: 0 },
-  }),
-  p("golden", "Golden Hour", "Sunsets", "K2", { look: "k2", temperature: 20, halation: 30 }),
-  p("nightwalk", "Night Walk", "City at night", "K5", { look: "k5", shadows: 20, grain: 25, grainSize: 50 }),
-  p("mumbai", "Mumbai Local", "Street, documentary", "F1", { look: "f1", contrast: 15, grain: 25, grainSize: 50 }),
-  p("pastel", "Soft Pastel", "Flowers, fashion", "F4", { look: "f4", highlights: -30, fade: 25 }),
-  p("noir", "Film Noir", "Moody black and white", "K6", { look: "k6", contrast: 30, vignette: 35 }),
-  p("instant", "Instant Memory", "Prints", "T3", { look: "t3", frame: { kind: "instant", caption: "a moment" } }),
-  p("strip", "Photo Strip", "Photo booth fun", "T6", { look: "t6", frame: { kind: "strip" } }),
-  p("neon", "Neon Dreams", "Concerts, neon signs", "S1", { look: "s1", saturation: 15, halation: 40 }),
-  p("slides", "Slide Show", "Travel", "K7", { look: "k7", frame: { kind: "film" } }),
-  p("cinema", "Cinema", "Cinematic stills", "F5", { look: "f5", grain: 10, grainSize: 30, geometry: { aspect: "2.39:1" } }),
-  p("lofi", "Lo-fi Toy", "Experimental", "T1", { look: "t1", vignette: 60, vignetteMid: 25, leak: 45, leakStyle: 1 }),
-  p("terminal", "Terminal", "Profile pictures", "TX", {
-    ascii: { enabled: true, colour: "terminal", background: "black", cols: 120, crt: true, charset: "standard" },
-  }),
-  p("typewriter", "Typewriter", "Posters", "TW", {
-    ascii: { enabled: true, colour: "mono", background: "paper", charset: "dense", cols: 140, font: "courier" },
-  }),
-];
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+/**
+ * A preset at partial intensity: numbers move from `base` towards the preset,
+ * the look fades in through its strength, and frames, crop and ASCII switch on
+ * once the intensity is above zero.
+ */
+export function blendEdit(base: Edit, target: Edit, t: number): Edit {
+  if (t >= 1) return target;
+  const out = { ...target } as Edit;
+  for (const k of Object.keys(target) as (keyof Edit)[]) {
+    const a = base[k];
+    const b = target[k];
+    if (typeof a === "number" && typeof b === "number") (out[k] as number) = lerp(a, b, t);
+  }
+  out.hsl = target.hsl.map((v, i) => lerp(base.hsl[i], v, t));
+  if (target.look !== NO_LOOK) out.strength = target.strength * t;
+  else {
+    out.look = base.look;
+    out.strength = base.strength * (1 - t);
+  }
+  if (t <= 0) return base;
+  return out;
+}
+
+/* ---------- favourites (this device only) ---------- */
+
+const FAV_KEY = "chhaya.favourites.v1";
+
+export function loadFavourites(): string[] {
+  try {
+    return JSON.parse(localStorage.getItem(FAV_KEY) || "[]") as string[];
+  } catch {
+    return [];
+  }
+}
+
+export function saveFavourites(ids: string[]) {
+  try {
+    localStorage.setItem(FAV_KEY, JSON.stringify(ids));
+  } catch {
+    // Storage unavailable: favourites last for this visit only.
+  }
+}
 
 const KEY = "chhaya.presets.v1";
 
@@ -55,7 +97,13 @@ export function loadCustomPresets(): Preset[] {
     if (!raw) return [];
     const list = JSON.parse(raw) as Preset[];
     // Older saves may miss newer fields: rebuild on top of today's defaults.
-    return list.map((x) => ({ ...x, custom: true, edit: mergeEdit(DEFAULT_EDIT, x.edit) }));
+    return list.map((x) => ({
+      ...x,
+      custom: true,
+      category: "Mine" as const,
+      intensity: x.intensity ?? 100,
+      edit: mergeEdit(DEFAULT_EDIT, x.edit),
+    }));
   } catch {
     return [];
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { type AsciiGrid, gridToText } from "../ascii";
 import type { Photo } from "../camera";
 import { DEFAULT_EDIT, type Edit, isAdjusted, isEdited } from "../edit";
@@ -10,13 +10,26 @@ import { INSTANT_KINDS, type Rect } from "../frames";
 import { layout } from "../geometry";
 import { coverCrop, Renderer } from "../gl/renderer";
 import { getLook, LOOKS, NO_LOOK } from "../looks";
-import { loadCustomPresets, type Preset, PRESETS, saveCustomPresets } from "../presets";
+import { importLut, removeImportedLut } from "../lut-import";
+import {
+  blendEdit,
+  CATEGORIES,
+  type Category,
+  loadCustomPresets,
+  loadFavourites,
+  type Preset,
+  PRESETS,
+  saveCustomPresets,
+  saveFavourites,
+} from "../presets";
 import { useHistory } from "../useHistory";
 import { AdjustPanel } from "./AdjustPanel";
 import { AsciiPanel } from "./AsciiPanel";
+import { Chips } from "./Chips";
 import { HairlineSlider } from "./HairlineSlider";
 import { Icon } from "./Icon";
 import { PrintPanel } from "./PrintPanel";
+import { UploadButton } from "./UploadButton";
 
 export type Tab = "presets" | "looks" | "adjust" | "ascii" | "print";
 
@@ -30,7 +43,6 @@ type Props = {
 type SaveState = "idle" | "menu" | "working" | "done" | "error";
 
 const THUMB = 120;
-const STRIP = [NO_LOOK, ...LOOKS.map((l) => l.id)];
 const TABS: { id: Tab; label: string }[] = [
   { id: "presets", label: "Presets" },
   { id: "looks", label: "Looks" },
@@ -49,6 +61,16 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
   const [custom, setCustom] = useState<Preset[]>([]);
   const [presetId, setPresetId] = useState<string | null>(null);
+  const [category, setCategory] = useState<Category | "All" | "Favourites">("All");
+  const [favs, setFavs] = useState<string[]>([]);
+  const [intensity, setIntensity] = useState(100);
+  // The edit a preset is applied on top of, so trying presets (or the intensity) never stacks.
+  const presetBase = useRef<Edit | null>(null);
+  const lastApplied = useRef<Edit | null>(null);
+  // Bumped when an imported LUT is added or removed, so the looks list refreshes.
+  const [lookVersion, setLookVersion] = useState(0);
+  const [notice, setNotice] = useState<string | null>(null);
+  const strip = useMemo(() => [NO_LOOK, ...LOOKS.map((l) => l.id)], [lookVersion]);
   const [save, setSave] = useState<SaveState>("idle");
   const [savedOnce, setSavedOnce] = useState(false);
 
@@ -61,7 +83,10 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
   const [developKey, setDevelopKey] = useState(0);
   const lastKind = useRef(initialEdit.frame.kind);
 
-  useEffect(() => setCustom(loadCustomPresets()), []);
+  useEffect(() => {
+    setCustom(loadCustomPresets());
+    setFavs(loadFavourites());
+  }, []);
 
   // Measure the stage (content box).
   useLayoutEffect(() => {
@@ -162,20 +187,27 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
       const c = coverCrop(small.width, small.height, 1, 1);
       const matrix = new Float32Array([c.w, 0, 0, 0, c.h, 0, c.x, c.y, 1]);
       const out: Record<string, string> = {};
-      const shot = (key: string, e: Edit) => {
-        r.render({ edit: { ...e, geometry: DEFAULT_EDIT.geometry }, matrix, span: small.width * c.w });
-        out[key] = canvas.toDataURL("image/jpeg", 0.82);
-      };
-      for (const id of STRIP) shot(id, { ...DEFAULT_EDIT, look: id });
-      for (const p of [...PRESETS, ...loadCustomPresets()]) shot(`preset:${p.id}`, p.edit);
+      const jobs: [string, Edit][] = [
+        ...strip.map((id): [string, Edit] => [id, { ...DEFAULT_EDIT, look: id }]),
+        ...PRESETS.map((p): [string, Edit] => [`preset:${p.id}`, p.edit]),
+        ...loadCustomPresets().map((p): [string, Edit] => [`preset:${p.id}`, p.edit]),
+      ];
+      // Small batches with a pause between, so the editor stays responsive while ~200 previews render.
+      for (let i = 0; i < jobs.length && !cancelled; i += 24) {
+        for (const [key, e] of jobs.slice(i, i + 24)) {
+          r.render({ edit: { ...e, geometry: DEFAULT_EDIT.geometry }, matrix, span: small.width * c.w });
+          out[key] = canvas.toDataURL("image/jpeg", 0.8);
+        }
+        if (!cancelled) setThumbs({ ...out });
+        await new Promise((res) => setTimeout(res, 0));
+      }
       r.dispose();
       small.close();
-      if (!cancelled) setThumbs(out);
     })().catch(() => {});
     return () => {
       cancelled = true;
     };
-  }, [photo, custom.length]);
+  }, [photo, custom.length, strip]);
 
   const pickLook = (id: string) => {
     if (id === edit.look && id !== NO_LOOK) {
@@ -186,11 +218,48 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
     history.push({ ...edit, look: id, strength: 12 });
   };
 
-  const applyPreset = (p: Preset) => {
+  // Presets set the whole look; a strip keeps its strip frame unless the preset picks one.
+  const presetTarget = (p: Preset, base: Edit): Edit => {
+    const frame = p.edit.frame.kind === "none" && photo.strip > 1 ? base.frame : p.edit.frame;
+    return { ...p.edit, frame: { ...frame, caption: frame.caption || base.frame.caption } };
+  };
+
+  const applyPreset = (p: Preset, amount = p.intensity, live = false) => {
+    // Start from the edit before any preset, unless something else changed since.
+    if (!presetBase.current || lastApplied.current !== history.value) presetBase.current = history.value;
+    const base = presetBase.current;
+    const next = blendEdit(base, presetTarget(p, base), amount / 100);
+    lastApplied.current = next;
     setPresetId(p.id);
-    // Presets set the whole look; a strip keeps its strip frame unless the preset picks one.
-    const frame = p.edit.frame.kind === "none" && photo.strip > 1 ? edit.frame : p.edit.frame;
-    history.push({ ...p.edit, frame: { ...frame, caption: frame.caption || edit.frame.caption } });
+    setIntensity(amount);
+    if (live) history.set(next);
+    else history.push(next);
+  };
+
+  const toggleFav = (id: string) => {
+    const next = favs.includes(id) ? favs.filter((x) => x !== id) : [...favs, id];
+    setFavs(next);
+    saveFavourites(next);
+  };
+
+  const onImportLut = async (file: File) => {
+    try {
+      const { look, saved } = await importLut(file);
+      setLookVersion((v) => v + 1);
+      setStrengthOpen(false);
+      history.push({ ...edit, look: look.id, strength: 12 });
+      setNotice(saved ? `imported "${look.name}"` : `imported "${look.name}" for this visit (storage is full)`);
+    } catch (err) {
+      setNotice((err as Error).message || "couldn't read that LUT file");
+    }
+    setTimeout(() => setNotice(null), 3200);
+  };
+
+  const removeLut = (id: string) => {
+    if (!window.confirm("remove this imported LUT?")) return;
+    removeImportedLut(id);
+    setLookVersion((v) => v + 1);
+    history.push({ ...edit, look: NO_LOOK });
   };
 
   const saveAsPreset = () => {
@@ -201,6 +270,8 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
       id: `custom-${Date.now()}`,
       name,
       goodFor: "saved on this device",
+      category: "Mine",
+      intensity: 100,
       code: look?.code ?? "★",
       edit,
       custom: true,
@@ -278,7 +349,20 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
   }, [history, save, strengthOpen]);
 
   const look = getLook(edit.look);
-  const allPresets = [...PRESETS, ...custom];
+  // Imported LUTs also show up as presets under "Mine".
+  const lutPresets: Preset[] = LOOKS.filter((l) => l.lut).map((l) => ({
+    id: `lut:${l.id}`,
+    name: l.name,
+    goodFor: "your imported LUT",
+    category: "Mine",
+    intensity: 100,
+    code: l.code,
+    edit: { ...DEFAULT_EDIT, look: l.id },
+  }));
+  const allPresets = [...PRESETS, ...custom, ...lutPresets];
+  const shownPresets = allPresets.filter((p) =>
+    category === "All" ? true : category === "Favourites" ? favs.includes(p.id) : p.category === category,
+  );
   const preset = allPresets.find((p) => p.id === presetId);
   const dotFor: Record<Tab, boolean> = {
     presets: !!preset,
@@ -379,13 +463,52 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
         {tab === "presets" && (
           <>
             <div className="ch-panel-control">
-              <div className="ch-control ch-control-quiet" key={preset?.id ?? "none"}>
-                <span className="ch-control-name">{preset?.name ?? "Presets"}</span>
-                <span className="ch-label ch-faint">
-                  {preset ? preset.goodFor : "a look, adjustments and a frame in one tap"}
-                </span>
-              </div>
+              {preset ? (
+                <div className="ch-control" key={preset.id}>
+                  <div className="ch-control-head">
+                    <span className="ch-control-name">{preset.name}</span>
+                    <span className="ch-head-actions">
+                      <button
+                        className={`ch-icon-btn ch-icon-sm${favs.includes(preset.id) ? " is-fav" : ""}`}
+                        aria-label={favs.includes(preset.id) ? "Remove from favourites" : "Add to favourites"}
+                        aria-pressed={favs.includes(preset.id)}
+                        onClick={() => toggleFav(preset.id)}
+                      >
+                        <Icon name="star" size={18} />
+                      </button>
+                    </span>
+                  </div>
+                  <span className="ch-label ch-faint ch-preset-meta">
+                    {preset.category} · {preset.goodFor}
+                  </span>
+                  <HairlineSlider
+                    label={`${preset.name} intensity`}
+                    value={intensity}
+                    min={0}
+                    max={100}
+                    step={1}
+                    defaultValue={preset.intensity}
+                    decimals={0}
+                    signed={false}
+                    onChange={(v) => applyPreset(preset, v, true)}
+                  />
+                </div>
+              ) : (
+                <div className="ch-control ch-control-quiet" key="none">
+                  <span className="ch-control-name">Presets</span>
+                  <span className="ch-label ch-faint">{allPresets.length} presets · a look, adjustments and a frame in one tap</span>
+                </div>
+              )}
             </div>
+            <Chips
+              label="Preset category"
+              value={category}
+              options={(["All", "Favourites", ...CATEGORIES, "Mine"] as const).map((c) => ({
+                value: c,
+                label: c === "Favourites" ? `★ ${favs.length || ""}`.trim() : c,
+              }))}
+              onChange={setCategory}
+            />
             <div className="ch-looks" role="listbox" aria-label="Presets">
               <button className="ch-look" onClick={saveAsPreset} aria-label="Save current edit as a preset">
                 <span className="ch-look-thumb ch-look-add">
@@ -393,7 +516,12 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
                 </span>
                 <span className="ch-look-code">Save</span>
               </button>
-              {allPresets.map((p) => {
+              {shownPresets.length === 0 && (
+                <p className="ch-label ch-faint ch-empty">
+                  {category === "Favourites" ? "tap ★ on a preset to keep it here" : "nothing here yet"}
+                </p>
+              )}
+              {shownPresets.map((p) => {
                 const on = p.id === presetId;
                 return (
                   <button
@@ -402,13 +530,14 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
                     aria-selected={on}
                     aria-label={`${p.name}, good for ${p.goodFor}${p.custom ? ". Tap again to delete" : ""}`}
                     className={`ch-look ch-preset${on ? " is-on" : ""}`}
-                    onClick={() => (on && p.custom ? deletePreset(p) : applyPreset(p))}
+                    onClick={() => (on && p.custom ? deletePreset(p) : on ? undefined : applyPreset(p))}
                   >
                     <span
                       className="ch-look-thumb"
                       style={thumbs[`preset:${p.id}`] ? { backgroundImage: `url(${thumbs[`preset:${p.id}`]})` } : undefined}
                     >
                       {p.edit.ascii.enabled && <span className="ch-thumb-badge">ASCII</span>}
+                      {favs.includes(p.id) && <span className="ch-thumb-star" aria-hidden="true">★</span>}
                       {p.custom && on && <span className="ch-thumb-badge">delete</span>}
                     </span>
                     <span className="ch-look-code ch-preset-name">{p.name}</span>
@@ -426,7 +555,13 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
                 <div className="ch-control">
                   <div className="ch-control-head">
                     <span className="ch-control-name">{look.name}</span>
-                    <span className="ch-label ch-faint">inspired by {look.inspiredBy}</span>
+                    {look.lut ? (
+                      <button className="ch-text-btn ch-remove" onClick={() => removeLut(look.id)}>
+                        remove LUT
+                      </button>
+                    ) : (
+                      <span className="ch-label ch-faint">inspired by {look.inspiredBy}</span>
+                    )}
                   </div>
                   <HairlineSlider
                     label={`${look.name} strength`}
@@ -444,15 +579,24 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
                 <div className="ch-control ch-control-quiet" key={edit.look}>
                   <span className="ch-control-name">{look?.name ?? "Original"}</span>
                   <span className="ch-label ch-faint">
-                    {look ? `${look.character.toLowerCase()} · tap again for strength` : "40 film looks · pick one"}
+                    {notice ??
+                      (look
+                        ? `${look.family} · ${look.character.toLowerCase()} · tap again for strength`
+                        : `${LOOKS.length} looks · pick one, or import a .cube / HaldCLUT LUT`)}
                   </span>
                 </div>
               )}
             </div>
             <div className="ch-looks" role="listbox" aria-label="Film looks">
-              {STRIP.map((id, i) => {
+              <UploadButton className="ch-look" onFile={onImportLut} ariaLabel="Import a LUT (.cube or HaldCLUT .png)" accept=".cube,.png,image/png">
+                <span className="ch-look-thumb ch-look-add">
+                  <Icon name="plus" />
+                </span>
+                <span className="ch-look-code">LUT</span>
+              </UploadButton>
+              {strip.map((id, i) => {
                 const l = getLook(id);
-                const prev = i > 0 ? getLook(STRIP[i - 1]) : undefined;
+                const prev = i > 0 ? getLook(strip[i - 1]) : undefined;
                 const on = id === edit.look;
                 return (
                   <Fragment key={id}>

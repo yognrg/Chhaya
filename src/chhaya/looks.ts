@@ -1,3 +1,6 @@
+import RECIPE_LOOKS from "./data/recipe-looks.json";
+import { applyRecipe, recipeSwatch, type Step } from "./recipes";
+
 /**
  * Film looks.
  *
@@ -58,6 +61,12 @@ export type Look = {
   vignette?: number;
   family: string;
   params: LookParams;
+  /** A recipe look (data/recipe-looks.json) is baked from these steps instead of `params`. */
+  recipe?: Step[];
+  /** An imported LUT (.cube or HaldCLUT), already resampled to 33³ RGBA. */
+  lut?: Uint8Array;
+  /** Where the values came from, for credits. */
+  source?: string;
 };
 
 export const NO_LOOK = "none";
@@ -179,6 +188,26 @@ export const LOOKS: Look[] = FAMILIES.flatMap(([family, rows]) =>
   })),
 );
 
+type RecipeRow = Omit<Look, "id" | "swatch" | "params" | "recipe"> & { recipe: unknown[] };
+
+// Recipe looks are data: one JSON entry each, appended after the hand-tuned 40.
+for (const r of RECIPE_LOOKS as RecipeRow[]) {
+  const recipe = r.recipe as Step[];
+  LOOKS.push({ ...r, id: r.code.toLowerCase(), swatch: recipeSwatch(recipe), params: {}, recipe });
+}
+
+/** Adds a look at runtime (imported LUTs). Replaces any look with the same id. */
+export function registerLook(look: Look) {
+  unregisterLook(look.id);
+  LOOKS.push(look);
+}
+
+export function unregisterLook(id: string) {
+  const i = LOOKS.findIndex((l) => l.id === id);
+  if (i >= 0) LOOKS.splice(i, 1);
+  lutCache.delete(id);
+}
+
 export function getLook(id: string): Look | undefined {
   return LOOKS.find((l) => l.id === id);
 }
@@ -284,6 +313,7 @@ const lutCache = new Map<string, Uint8Array>();
 
 /** RGBA8 bytes for a 33³ LUT, laid out r fastest, then g, then b (WebGL 3D texture order). */
 export function bakeLut(look: Look | undefined): Uint8Array {
+  if (look?.lut) return look.lut;
   const key = look?.id ?? NO_LOOK;
   const hit = lutCache.get(key);
   if (hit) return hit;
@@ -295,7 +325,7 @@ export function bakeLut(look: Look | undefined): Uint8Array {
     for (let gi = 0; gi < n; gi++) {
       for (let ri = 0; ri < n; ri++) {
         const src: RGB = [ri / (n - 1), gi / (n - 1), bi / (n - 1)];
-        const [r, g, b] = look ? applyLook(look.params, src) : src;
+        const [r, g, b] = !look ? src : look.recipe ? applyRecipe(look.recipe, src) : applyLook(look.params, src);
         out[i++] = Math.round(r * 255);
         out[i++] = Math.round(g * 255);
         out[i++] = Math.round(b * 255);

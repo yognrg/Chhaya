@@ -1,0 +1,2781 @@
+[
+ {
+  "code": "I1",
+  "name": "1977",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201c1977\u201d",
+  "character": "Rosy, faded, retro pink",
+  "recipe": [
+   [
+    "css-sepia",
+    0.5
+   ],
+   [
+    "css-hue",
+    -30
+   ],
+   [
+    "css-saturate",
+    1.4
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I2",
+  "name": "Aden",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cAden\u201d",
+  "character": "Soft pastel, cool-warm haze",
+  "recipe": [
+   [
+    "css-sepia",
+    0.2
+   ],
+   [
+    "css-brightness",
+    1.15
+   ],
+   [
+    "css-saturate",
+    1.4
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.1,
+    "multiply"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I3",
+  "name": "Amaro",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cAmaro\u201d",
+  "character": "Bright centre, airy warmth",
+  "recipe": [
+   [
+    "css-sepia",
+    0.35
+   ],
+   [
+    "css-contrast",
+    1.1
+   ],
+   [
+    "css-brightness",
+    1.2
+   ],
+   [
+    "css-saturate",
+    1.3
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.2,
+    "overlay"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I4",
+  "name": "Ashby",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cAshby\u201d",
+  "character": "Golden, saturated, sun-washed",
+  "recipe": [
+   [
+    "css-sepia",
+    0.5
+   ],
+   [
+    "css-contrast",
+    1.2
+   ],
+   [
+    "css-saturate",
+    1.8
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.35,
+    "lighten"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I5",
+  "name": "Brannan",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cBrannan\u201d",
+  "character": "Low-key, metallic warmth",
+  "recipe": [
+   [
+    "css-sepia",
+    0.4
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.1
+   ],
+   [
+    "css-saturate",
+    0.9
+   ],
+   [
+    "css-hue",
+    -2
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I6",
+  "name": "Brooklyn",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cBrooklyn\u201d",
+  "character": "Cool overlay, lifted",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.25
+   ],
+   [
+    "css-hue",
+    5
+   ],
+   [
+    "blend",
+    127,
+    187,
+    227,
+    0.2,
+    "overlay"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I7",
+  "name": "Charmes",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cCharmes\u201d",
+  "character": "Warm, punchy, red-leaning",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.25
+   ],
+   [
+    "css-saturate",
+    1.35
+   ],
+   [
+    "css-hue",
+    -5
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.25,
+    "darken"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I8",
+  "name": "Clarendon",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cClarendon\u201d",
+  "character": "Bright, cool, high contrast",
+  "recipe": [
+   [
+    "css-sepia",
+    0.15
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.25
+   ],
+   [
+    "css-hue",
+    5
+   ],
+   [
+    "blend",
+    127,
+    187,
+    227,
+    0.4,
+    "overlay"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I9",
+  "name": "Crema",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cCrema\u201d",
+  "character": "Creamy, softly desaturated",
+  "recipe": [
+   [
+    "css-sepia",
+    0.5
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.15
+   ],
+   [
+    "css-saturate",
+    0.9
+   ],
+   [
+    "css-hue",
+    -2
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.2,
+    "multiply"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I10",
+  "name": "Dogpatch",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cDogpatch\u201d",
+  "character": "Contrasty, slightly faded",
+  "recipe": [
+   [
+    "css-sepia",
+    0.35
+   ],
+   [
+    "css-saturate",
+    1.1
+   ],
+   [
+    "css-contrast",
+    1.5
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I11",
+  "name": "Earlybird",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cEarlybird\u201d",
+  "character": "Warm, faded, vintage",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.15
+   ],
+   [
+    "css-saturate",
+    0.9
+   ],
+   [
+    "css-hue",
+    -5
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.1,
+    "multiply"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.15,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I12",
+  "name": "Gingham",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cGingham\u201d",
+  "character": "Washed out, gentle vintage",
+  "recipe": [
+   [
+    "css-contrast",
+    1.1
+   ],
+   [
+    "css-brightness",
+    1.1
+   ],
+   [
+    "blend",
+    230,
+    230,
+    230,
+    1,
+    "soft-light"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I13",
+  "name": "Ginza",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cGinza\u201d",
+  "character": "Warm, bright, glowing",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.15
+   ],
+   [
+    "css-brightness",
+    1.2
+   ],
+   [
+    "css-saturate",
+    1.35
+   ],
+   [
+    "css-hue",
+    -5
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.15,
+    "darken"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I14",
+  "name": "Hefe",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cHefe\u201d",
+  "character": "Rich, warm, high contrast",
+  "recipe": [
+   [
+    "css-sepia",
+    0.4
+   ],
+   [
+    "css-contrast",
+    1.5
+   ],
+   [
+    "css-brightness",
+    1.2
+   ],
+   [
+    "css-saturate",
+    1.4
+   ],
+   [
+    "css-hue",
+    -10
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.25,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I15",
+  "name": "Helena",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cHelena\u201d",
+  "character": "Teal and orange, soft",
+  "recipe": [
+   [
+    "css-sepia",
+    0.5
+   ],
+   [
+    "css-contrast",
+    1.05
+   ],
+   [
+    "css-brightness",
+    1.05
+   ],
+   [
+    "css-saturate",
+    1.35
+   ],
+   [
+    "blend",
+    158,
+    175,
+    30,
+    0.25,
+    "overlay"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I16",
+  "name": "Hudson",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cHudson\u201d",
+  "character": "Icy, cool, airy",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.2
+   ],
+   [
+    "css-brightness",
+    1.2
+   ],
+   [
+    "css-saturate",
+    1.05
+   ],
+   [
+    "css-hue",
+    -15
+   ],
+   [
+    "blend",
+    25,
+    62,
+    167,
+    0.12,
+    "multiply"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.1,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I17",
+  "name": "Inkwell",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cInkwell\u201d",
+  "character": "Bright black and white",
+  "recipe": [
+   [
+    "css-brightness",
+    1.25
+   ],
+   [
+    "css-contrast",
+    0.85
+   ],
+   [
+    "css-grayscale",
+    1
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I18",
+  "name": "Juno",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cJuno\u201d",
+  "character": "Bright colour, warm reds and yellows",
+  "recipe": [
+   [
+    "css-sepia",
+    0.35
+   ],
+   [
+    "css-contrast",
+    1.15
+   ],
+   [
+    "css-brightness",
+    1.15
+   ],
+   [
+    "css-saturate",
+    1.8
+   ],
+   [
+    "blend",
+    127,
+    187,
+    227,
+    0.2,
+    "overlay"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I19",
+  "name": "Kelvin",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cKelvin\u201d",
+  "character": "Hot orange cast",
+  "recipe": [
+   [
+    "css-sepia",
+    0.15
+   ],
+   [
+    "css-contrast",
+    1.5
+   ],
+   [
+    "css-brightness",
+    1.1
+   ],
+   [
+    "css-hue",
+    -10
+   ],
+   [
+    "blend",
+    128,
+    78,
+    15,
+    0.38,
+    "overlay"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I20",
+  "name": "Lark",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cLark\u201d",
+  "character": "Bright, cool, fresh",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.2
+   ],
+   [
+    "css-brightness",
+    1.3
+   ],
+   [
+    "css-saturate",
+    1.25
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I21",
+  "name": "Lo-Fi",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cLo-Fi\u201d",
+  "character": "Rich colour, strong shadows",
+  "recipe": [
+   [
+    "css-saturate",
+    1.1
+   ],
+   [
+    "css-contrast",
+    1.5
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I22",
+  "name": "Ludwig",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cLudwig\u201d",
+  "character": "Bold colour, soft light",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.05
+   ],
+   [
+    "css-brightness",
+    1.05
+   ],
+   [
+    "css-saturate",
+    2
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.1,
+    "overlay"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I23",
+  "name": "Maven",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cMaven\u201d",
+  "character": "Yellow-green, moody",
+  "recipe": [
+   [
+    "css-sepia",
+    0.35
+   ],
+   [
+    "css-contrast",
+    1.05
+   ],
+   [
+    "css-brightness",
+    1.05
+   ],
+   [
+    "css-saturate",
+    1.75
+   ],
+   [
+    "blend",
+    158,
+    175,
+    30,
+    0.25,
+    "darken"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I24",
+  "name": "Mayfair",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cMayfair\u201d",
+  "character": "Warm centre, gentle vignette",
+  "recipe": [
+   [
+    "css-contrast",
+    1.1
+   ],
+   [
+    "css-brightness",
+    1.15
+   ],
+   [
+    "css-saturate",
+    1.1
+   ],
+   [
+    "blend",
+    175,
+    105,
+    24,
+    0.15,
+    "multiply"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.15,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I25",
+  "name": "Moon",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cMoon\u201d",
+  "character": "Soft black and white",
+  "recipe": [
+   [
+    "css-brightness",
+    1.4
+   ],
+   [
+    "css-contrast",
+    0.95
+   ],
+   [
+    "css-saturate",
+    0
+   ],
+   [
+    "css-sepia",
+    0.35
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I26",
+  "name": "Nashville",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cNashville\u201d",
+  "character": "Pink-peach, washed",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.5
+   ],
+   [
+    "css-brightness",
+    0.9
+   ],
+   [
+    "css-hue",
+    -15
+   ],
+   [
+    "blend",
+    128,
+    78,
+    15,
+    0.57,
+    "screen"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I27",
+  "name": "Perpetua",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cPerpetua\u201d",
+  "character": "Pastel, blue to gold",
+  "recipe": [
+   [
+    "css-contrast",
+    1.1
+   ],
+   [
+    "css-brightness",
+    1.25
+   ],
+   [
+    "css-saturate",
+    1.1
+   ],
+   [
+    "blend",
+    115,
+    142,
+    108,
+    0.25,
+    "multiply"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I28",
+  "name": "Poprocket",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cPoprocket\u201d",
+  "character": "Pink glow, retro",
+  "recipe": [
+   [
+    "css-sepia",
+    0.15
+   ],
+   [
+    "css-brightness",
+    1.2
+   ],
+   [
+    "blend",
+    206,
+    39,
+    70,
+    0.3,
+    "screen"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.2,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I29",
+  "name": "Reyes",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cReyes\u201d",
+  "character": "Dusty, faded vintage",
+  "recipe": [
+   [
+    "css-sepia",
+    0.75
+   ],
+   [
+    "css-contrast",
+    0.75
+   ],
+   [
+    "css-brightness",
+    1.25
+   ],
+   [
+    "css-saturate",
+    1.4
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I30",
+  "name": "Rise",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cRise\u201d",
+  "character": "Soft golden glow",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.2
+   ],
+   [
+    "css-saturate",
+    0.9
+   ],
+   [
+    "blend",
+    230,
+    193,
+    61,
+    0.12,
+    "lighten"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I31",
+  "name": "Sierra",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cSierra\u201d",
+  "character": "Faded, soft warm",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.5
+   ],
+   [
+    "css-brightness",
+    0.9
+   ],
+   [
+    "css-hue",
+    -15
+   ],
+   [
+    "blend",
+    128,
+    78,
+    15,
+    0.3,
+    "screen"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I32",
+  "name": "Skyline",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cSkyline\u201d",
+  "character": "Bright, saturated, clean",
+  "recipe": [
+   [
+    "css-sepia",
+    0.15
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.25
+   ],
+   [
+    "css-saturate",
+    1.2
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I33",
+  "name": "Slumber",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cSlumber\u201d",
+  "character": "Desaturated, hazy",
+  "recipe": [
+   [
+    "css-sepia",
+    0.35
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-saturate",
+    1.25
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.2,
+    "darken"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I34",
+  "name": "Stinson",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cStinson\u201d",
+  "character": "Bright, lightly faded",
+  "recipe": [
+   [
+    "css-sepia",
+    0.35
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.1
+   ],
+   [
+    "css-saturate",
+    1.25
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.45,
+    "lighten"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I35",
+  "name": "Sutro",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cSutro\u201d",
+  "character": "Burnt edges, purple-brown",
+  "recipe": [
+   [
+    "css-sepia",
+    0.4
+   ],
+   [
+    "css-contrast",
+    1.2
+   ],
+   [
+    "css-brightness",
+    0.9
+   ],
+   [
+    "css-saturate",
+    1.4
+   ],
+   [
+    "css-hue",
+    -10
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.35,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I36",
+  "name": "Toaster",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cToaster\u201d",
+  "character": "Burnt orange, aged",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.5
+   ],
+   [
+    "css-brightness",
+    0.95
+   ],
+   [
+    "css-hue",
+    -15
+   ],
+   [
+    "blend",
+    128,
+    78,
+    15,
+    0.5,
+    "screen"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.1,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I37",
+  "name": "Valencia",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cValencia\u201d",
+  "character": "Warm, faded, lifted",
+  "recipe": [
+   [
+    "css-sepia",
+    0.25
+   ],
+   [
+    "css-contrast",
+    1.1
+   ],
+   [
+    "css-brightness",
+    1.1
+   ],
+   [
+    "blend",
+    230,
+    193,
+    61,
+    0.1,
+    "lighten"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I38",
+  "name": "Vesper",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cVesper\u201d",
+  "character": "Warm, bright, saturated",
+  "recipe": [
+   [
+    "css-sepia",
+    0.35
+   ],
+   [
+    "css-contrast",
+    1.15
+   ],
+   [
+    "css-brightness",
+    1.2
+   ],
+   [
+    "css-saturate",
+    1.3
+   ],
+   [
+    "blend",
+    125,
+    105,
+    24,
+    0.25,
+    "overlay"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I39",
+  "name": "Walden",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cWalden\u201d",
+  "character": "Washed yellow, airy",
+  "recipe": [
+   [
+    "css-sepia",
+    0.35
+   ],
+   [
+    "css-contrast",
+    0.8
+   ],
+   [
+    "css-brightness",
+    1.25
+   ],
+   [
+    "css-saturate",
+    1.4
+   ],
+   [
+    "blend",
+    229,
+    240,
+    128,
+    0.5,
+    "darken"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I40",
+  "name": "Willow",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cWillow\u201d",
+  "character": "Muted black and white",
+  "recipe": [
+   [
+    "css-brightness",
+    1.2
+   ],
+   [
+    "css-contrast",
+    0.85
+   ],
+   [
+    "css-saturate",
+    0.05
+   ],
+   [
+    "css-sepia",
+    0.2
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "I41",
+  "name": "X-Pro II",
+  "family": "Instagram style",
+  "inspiredBy": "Instagram \u201cX-Pro II\u201d",
+  "character": "Cross-processed, vivid, vignetted",
+  "recipe": [
+   [
+    "css-sepia",
+    0.45
+   ],
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "css-brightness",
+    1.75
+   ],
+   [
+    "css-saturate",
+    1.3
+   ],
+   [
+    "css-hue",
+    -5
+   ],
+   [
+    "blend",
+    0,
+    91,
+    154,
+    0.25,
+    "multiply"
+   ]
+  ],
+  "grain": 0,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.5,
+  "source": "instagram.css (MIT)"
+ },
+ {
+  "code": "V1",
+  "name": "Faded Film",
+  "family": "Vintage",
+  "inspiredBy": "faded colour negative",
+  "character": "Lifted blacks, soft colour",
+  "recipe": [
+   [
+    "css-contrast",
+    0.85
+   ],
+   [
+    "css-saturate",
+    0.8
+   ],
+   [
+    "rgb",
+    0.9,
+    0.9,
+    0.88
+   ],
+   [
+    "add",
+    24,
+    22,
+    26
+   ]
+  ],
+  "grain": 0.25,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "Chhaya (own recipe)"
+ },
+ {
+  "code": "V2",
+  "name": "Sepia Print",
+  "family": "Vintage",
+  "inspiredBy": "sepia toning",
+  "character": "Warm brown monochrome",
+  "recipe": [
+   [
+    "css-sepia",
+    0.85
+   ],
+   [
+    "css-contrast",
+    1.05
+   ]
+  ],
+  "grain": 0.3,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.2,
+  "source": "Chhaya (own recipe)"
+ },
+ {
+  "code": "V3",
+  "name": "Cross Process",
+  "family": "Vintage",
+  "inspiredBy": "slide film in C-41",
+  "character": "Yellow-green highlights, blue shadows, punchy",
+  "recipe": [
+   [
+    "css-contrast",
+    1.25
+   ],
+   [
+    "rgb",
+    1.0,
+    1.08,
+    0.78
+   ],
+   [
+    "add",
+    0,
+    0,
+    30
+   ],
+   [
+    "css-saturate",
+    1.25
+   ]
+  ],
+  "grain": 0.3,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.15,
+  "source": "Chhaya (own recipe)"
+ },
+ {
+  "code": "V4",
+  "name": "Bleach Bypass",
+  "family": "Vintage",
+  "inspiredBy": "skipped bleach bath",
+  "character": "Silvery, low saturation, harsh contrast",
+  "recipe": [
+   [
+    "css-saturate",
+    0.45
+   ],
+   [
+    "css-contrast",
+    1.35
+   ],
+   [
+    "css-brightness",
+    0.95
+   ]
+  ],
+  "grain": 0.25,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "Chhaya (own recipe)"
+ },
+ {
+  "code": "V5",
+  "name": "Warm 70s",
+  "family": "Vintage",
+  "inspiredBy": "1970s print stock",
+  "character": "Amber cast, soft contrast",
+  "recipe": [
+   [
+    "css-sepia",
+    0.3
+   ],
+   [
+    "rgb",
+    1.08,
+    1.0,
+    0.85
+   ],
+   [
+    "css-contrast",
+    0.9
+   ],
+   [
+    "add",
+    12,
+    6,
+    0
+   ],
+   [
+    "css-saturate",
+    1.1
+   ]
+  ],
+  "grain": 0.35,
+  "grainSize": 1.2,
+  "halation": 0.1,
+  "vignette": 0,
+  "source": "Chhaya (own recipe)"
+ },
+ {
+  "code": "V6",
+  "name": "Cool 90s",
+  "family": "Vintage",
+  "inspiredBy": "1990s point-and-shoot",
+  "character": "Cool, crisp, slightly green",
+  "recipe": [
+   [
+    "rgb",
+    0.95,
+    1.0,
+    1.08
+   ],
+   [
+    "css-contrast",
+    1.15
+   ],
+   [
+    "css-saturate",
+    1.05
+   ],
+   [
+    "add",
+    0,
+    4,
+    10
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "Chhaya (own recipe)"
+ },
+ {
+  "code": "V7",
+  "name": "Expired Film",
+  "family": "Vintage",
+  "inspiredBy": "outdated consumer film",
+  "character": "Magenta shift, faded, unpredictable",
+  "recipe": [
+   [
+    "css-hue",
+    -12
+   ],
+   [
+    "rgb",
+    1.05,
+    0.94,
+    1.04
+   ],
+   [
+    "css-contrast",
+    0.85
+   ],
+   [
+    "add",
+    20,
+    6,
+    18
+   ],
+   [
+    "css-saturate",
+    0.85
+   ]
+  ],
+  "grain": 0.5,
+  "grainSize": 1.2,
+  "halation": 0.1,
+  "vignette": 0.1,
+  "source": "Chhaya (own recipe)"
+ },
+ {
+  "code": "V8",
+  "name": "Cream Instant",
+  "family": "Vintage",
+  "inspiredBy": "Polaroid SX-70 recipe",
+  "character": "Creamy, soft, sepia-touched",
+  "recipe": [
+   [
+    "css-sepia",
+    0.2
+   ],
+   [
+    "m-brightness",
+    0.15
+   ],
+   [
+    "m-contrast",
+    -0.15
+   ],
+   [
+    "m-saturation",
+    -0.3
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "V9",
+  "name": "Square Instant",
+  "family": "Vintage",
+  "inspiredBy": "Polaroid 600 recipe",
+  "character": "Warm, soft, slightly faded",
+  "recipe": [
+   [
+    "rgb",
+    1.05,
+    1,
+    0.95
+   ],
+   [
+    "m-saturation",
+    -0.2
+   ],
+   [
+    "m-contrast",
+    -0.1
+   ],
+   [
+    "m-brightness",
+    0.1
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "V10",
+  "name": "New Instant",
+  "family": "Vintage",
+  "inspiredBy": "Impossible Project recipe",
+  "character": "Cool instant, gentle colour",
+  "recipe": [
+   [
+    "rgb",
+    1.03,
+    0.98,
+    1.02
+   ],
+   [
+    "m-saturation",
+    -0.1
+   ],
+   [
+    "m-brightness",
+    0.05
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "V11",
+  "name": "Autumn Roll",
+  "family": "Vintage",
+  "inspiredBy": "autumn mood recipe",
+  "character": "Orange, warm, rich",
+  "recipe": [
+   [
+    "rgb",
+    1.2,
+    1,
+    0.8
+   ],
+   [
+    "m-saturation",
+    0.15
+   ],
+   [
+    "tint",
+    255,
+    140,
+    0,
+    0.1
+   ],
+   [
+    "m-contrast",
+    0.05
+   ]
+  ],
+  "grain": 0.25,
+  "grainSize": 1,
+  "halation": 0.1,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "V12",
+  "name": "Golden Sunset",
+  "family": "Vintage",
+  "inspiredBy": "sunset mood recipe",
+  "character": "Deep gold and orange",
+  "recipe": [
+   [
+    "rgb",
+    1.2,
+    1,
+    0.7
+   ],
+   [
+    "tint",
+    255,
+    140,
+    0,
+    0.15
+   ],
+   [
+    "m-saturation",
+    0.15
+   ],
+   [
+    "m-brightness",
+    0.05
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0.2,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "V13",
+  "name": "City Heat",
+  "family": "Vintage",
+  "inspiredBy": "warm city recipe",
+  "character": "Saturated, sunny, spicy",
+  "recipe": [
+   [
+    "m-saturation",
+    0.4
+   ],
+   [
+    "rgb",
+    1.15,
+    1.05,
+    0.9
+   ],
+   [
+    "m-brightness",
+    0.1
+   ],
+   [
+    "tint",
+    255,
+    140,
+    0,
+    0.08
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "L1",
+  "name": "Portrait 400",
+  "family": "Film",
+  "inspiredBy": "Kodak Portra 400 recipe",
+  "character": "Warm skin, gentle colour",
+  "recipe": [
+   [
+    "rgb",
+    1.05,
+    1.02,
+    0.98
+   ],
+   [
+    "m-contrast",
+    0.05
+   ],
+   [
+    "m-saturation",
+    -0.1
+   ],
+   [
+    "tint",
+    255,
+    248,
+    238,
+    0.03
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0.05,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "L2",
+  "name": "Vivid 100",
+  "family": "Film",
+  "inspiredBy": "Kodak Ektar 100 recipe",
+  "character": "Vivid colour, fine grain",
+  "recipe": [
+   [
+    "m-saturation",
+    0.3
+   ],
+   [
+    "m-contrast",
+    0.15
+   ],
+   [
+    "rgb",
+    1.08,
+    1,
+    0.95
+   ]
+  ],
+  "grain": 0.08,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "L3",
+  "name": "Consumer Gold",
+  "family": "Film",
+  "inspiredBy": "Kodak Gold 200 recipe",
+  "character": "Classic warm consumer film",
+  "recipe": [
+   [
+    "rgb",
+    1.1,
+    1.05,
+    0.9
+   ],
+   [
+    "m-brightness",
+    0.05
+   ],
+   [
+    "m-saturation",
+    0.1
+   ]
+  ],
+  "grain": 0.3,
+  "grainSize": 1,
+  "halation": 0.1,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "L4",
+  "name": "Slide 50",
+  "family": "Film",
+  "inspiredBy": "Fuji Velvia 50 recipe",
+  "character": "Ultra-saturated landscapes",
+  "recipe": [
+   [
+    "m-saturation",
+    0.4
+   ],
+   [
+    "m-contrast",
+    0.2
+   ],
+   [
+    "rgb",
+    1,
+    1.05,
+    1.1
+   ]
+  ],
+  "grain": 0.06,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "L5",
+  "name": "Slide 100",
+  "family": "Film",
+  "inspiredBy": "Fuji Provia 100 recipe",
+  "character": "Accurate, clean slide film",
+  "recipe": [
+   [
+    "m-saturation",
+    0.15
+   ],
+   [
+    "m-contrast",
+    0.1
+   ],
+   [
+    "m-brightness",
+    0.03
+   ]
+  ],
+  "grain": 0.08,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "L6",
+  "name": "Soft Slide",
+  "family": "Film",
+  "inspiredBy": "Fuji Astia 100 recipe",
+  "character": "Soft skin tones, gentle",
+  "recipe": [
+   [
+    "m-saturation",
+    -0.05
+   ],
+   [
+    "rgb",
+    1.03,
+    1.01,
+    0.98
+   ],
+   [
+    "m-contrast",
+    0.05
+   ]
+  ],
+  "grain": 0.08,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "L7",
+  "name": "Everyday 400",
+  "family": "Film",
+  "inspiredBy": "Fuji Superia 400 recipe",
+  "character": "Bright, everyday consumer film",
+  "recipe": [
+   [
+    "rgb",
+    1.02,
+    1,
+    0.95
+   ],
+   [
+    "m-saturation",
+    0.2
+   ],
+   [
+    "m-brightness",
+    0.08
+   ]
+  ],
+  "grain": 0.3,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "B1",
+  "name": "Press 400",
+  "family": "Black and white",
+  "inspiredBy": "Kodak Tri-X 400 recipe",
+  "character": "Punchy, classic press B&W",
+  "recipe": [
+   [
+    "gray"
+   ],
+   [
+    "m-contrast",
+    0.2
+   ],
+   [
+    "m-brightness",
+    -0.05
+   ]
+  ],
+  "grain": 0.55,
+  "grainSize": 1.2,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "B2",
+  "name": "Silver 100",
+  "family": "Black and white",
+  "inspiredBy": "Fuji Acros 100 recipe",
+  "character": "Smooth, fine B&W",
+  "recipe": [
+   [
+    "gray"
+   ],
+   [
+    "m-contrast",
+    0.1
+   ],
+   [
+    "m-brightness",
+    0.02
+   ]
+  ],
+  "grain": 0.15,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "B3",
+  "name": "Street 400",
+  "family": "Black and white",
+  "inspiredBy": "Ilford HP5 recipe",
+  "character": "Versatile street B&W",
+  "recipe": [
+   [
+    "gray"
+   ],
+   [
+    "m-contrast",
+    0.15
+   ],
+   [
+    "m-brightness",
+    -0.03
+   ]
+  ],
+  "grain": 0.45,
+  "grainSize": 1.2,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "B4",
+  "name": "Night 3200",
+  "family": "Black and white",
+  "inspiredBy": "Ilford Delta 3200 recipe",
+  "character": "Dark, gritty, high speed",
+  "recipe": [
+   [
+    "gray"
+   ],
+   [
+    "m-contrast",
+    0.25
+   ],
+   [
+    "m-brightness",
+    -0.1
+   ]
+  ],
+  "grain": 0.8,
+  "grainSize": 1.2,
+  "halation": 0,
+  "vignette": 0.2,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "B5",
+  "name": "Fine 50",
+  "family": "Black and white",
+  "inspiredBy": "Ilford Pan F 50 recipe",
+  "character": "Bright, very fine B&W",
+  "recipe": [
+   [
+    "gray"
+   ],
+   [
+    "m-contrast",
+    0.08
+   ],
+   [
+    "m-brightness",
+    0.05
+   ]
+  ],
+  "grain": 0.05,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "B6",
+  "name": "Blue Mood",
+  "family": "Black and white",
+  "inspiredBy": "false-colour toning, navy to white",
+  "character": "Cyanotype-like blue monochrome",
+  "recipe": [
+   [
+    "gray"
+   ],
+   [
+    "rgb",
+    0.8549019607843137,
+    0.803921568627451,
+    0.6039215686274509
+   ],
+   [
+    "add",
+    18,
+    36,
+    96
+   ]
+  ],
+  "grain": 0.15,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "iOS-Image-Filters (MIT), idea only"
+ },
+ {
+  "code": "B7",
+  "name": "Envy",
+  "family": "Black and white",
+  "inspiredBy": "false-colour toning, green to white",
+  "character": "Green-toned monochrome",
+  "recipe": [
+   [
+    "gray"
+   ],
+   [
+    "rgb",
+    0.8784313725490196,
+    0.7529411764705882,
+    0.807843137254902
+   ],
+   [
+    "add",
+    12,
+    56,
+    30
+   ]
+  ],
+  "grain": 0.15,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "iOS-Image-Filters (MIT), idea only"
+ },
+ {
+  "code": "M1",
+  "name": "Teal & Orange",
+  "family": "Cinematic",
+  "inspiredBy": "cinematic grade recipe",
+  "character": "Warm skin, teal shadows",
+  "recipe": [
+   [
+    "m-contrast",
+    0.15
+   ],
+   [
+    "m-saturation",
+    -0.2
+   ],
+   [
+    "rgb",
+    1.1,
+    0.95,
+    0.85
+   ],
+   [
+    "tint",
+    0,
+    128,
+    128,
+    0.05
+   ]
+  ],
+  "grain": 0.15,
+  "grainSize": 1,
+  "halation": 0.1,
+  "vignette": 0.15,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M2",
+  "name": "Blockbuster",
+  "family": "Cinematic",
+  "inspiredBy": "action film grade recipe",
+  "character": "Hot, punchy, warm",
+  "recipe": [
+   [
+    "m-contrast",
+    0.25
+   ],
+   [
+    "m-saturation",
+    0.2
+   ],
+   [
+    "rgb",
+    1.15,
+    1,
+    0.8
+   ],
+   [
+    "m-brightness",
+    -0.05
+   ]
+  ],
+  "grain": 0.15,
+  "grainSize": 1,
+  "halation": 0.1,
+  "vignette": 0.2,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M3",
+  "name": "Code Green",
+  "family": "Cinematic",
+  "inspiredBy": "green sci-fi grade recipe",
+  "character": "Sickly green, crushed",
+  "recipe": [
+   [
+    "tint",
+    0,
+    255,
+    0,
+    0.15
+   ],
+   [
+    "m-contrast",
+    0.2
+   ],
+   [
+    "m-saturation",
+    -0.3
+   ],
+   [
+    "m-brightness",
+    -0.1
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.25,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M4",
+  "name": "Desert Orange",
+  "family": "Cinematic",
+  "inspiredBy": "desert action grade recipe",
+  "character": "Burnt orange, dusty",
+  "recipe": [
+   [
+    "tint",
+    255,
+    140,
+    0,
+    0.2
+   ],
+   [
+    "m-contrast",
+    0.3
+   ],
+   [
+    "m-saturation",
+    0.1
+   ],
+   [
+    "m-brightness",
+    0.05
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0.1,
+  "vignette": 0.15,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M5",
+  "name": "Amber Haze",
+  "family": "Cinematic",
+  "inspiredBy": "amber sci-fi grade recipe",
+  "character": "Smoggy amber, low saturation",
+  "recipe": [
+   [
+    "rgb",
+    1.2,
+    0.9,
+    0.7
+   ],
+   [
+    "m-contrast",
+    0.2
+   ],
+   [
+    "m-saturation",
+    -0.1
+   ],
+   [
+    "tint",
+    255,
+    165,
+    0,
+    0.1
+   ]
+  ],
+  "grain": 0.15,
+  "grainSize": 1,
+  "halation": 0.2,
+  "vignette": 0.15,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M6",
+  "name": "Moonlight",
+  "family": "Cinematic",
+  "inspiredBy": "blue night grade recipe",
+  "character": "Cool blue, soft",
+  "recipe": [
+   [
+    "tint",
+    100,
+    150,
+    255,
+    0.15
+   ],
+   [
+    "m-contrast",
+    -0.1
+   ],
+   [
+    "m-saturation",
+    -0.2
+   ],
+   [
+    "m-brightness",
+    0.08
+   ]
+  ],
+  "grain": 0.15,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.1,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M7",
+  "name": "Stairwell",
+  "family": "Cinematic",
+  "inspiredBy": "gritty city grade recipe",
+  "character": "Desaturated, green shadows",
+  "recipe": [
+   [
+    "m-saturation",
+    -0.4
+   ],
+   [
+    "m-contrast",
+    0.15
+   ],
+   [
+    "tint",
+    0,
+    100,
+    50,
+    0.08
+   ],
+   [
+    "m-brightness",
+    -0.08
+   ]
+  ],
+  "grain": 0.25,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.2,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M8",
+  "name": "Pastel Symmetry",
+  "family": "Cinematic",
+  "inspiredBy": "pastel storybook grade recipe",
+  "character": "Soft, warm pastels",
+  "recipe": [
+   [
+    "m-saturation",
+    -0.1
+   ],
+   [
+    "rgb",
+    1.05,
+    1.02,
+    0.98
+   ],
+   [
+    "m-brightness",
+    0.05
+   ],
+   [
+    "m-contrast",
+    -0.05
+   ]
+  ],
+  "grain": 0.1,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M9",
+  "name": "Hero",
+  "family": "Cinematic",
+  "inspiredBy": "superhero grade recipe",
+  "character": "Bright, saturated, clean",
+  "recipe": [
+   [
+    "m-saturation",
+    0.3
+   ],
+   [
+    "m-contrast",
+    0.15
+   ],
+   [
+    "m-brightness",
+    0.05
+   ],
+   [
+    "rgb",
+    1.05,
+    1,
+    1
+   ]
+  ],
+  "grain": 0.05,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "M10",
+  "name": "Night Steel",
+  "family": "Cinematic",
+  "inspiredBy": "dark comic grade recipe",
+  "character": "Dark, steely, desaturated",
+  "recipe": [
+   [
+    "m-saturation",
+    -0.3
+   ],
+   [
+    "m-contrast",
+    0.2
+   ],
+   [
+    "m-brightness",
+    -0.15
+   ],
+   [
+    "tint",
+    0,
+    0,
+    50,
+    0.1
+   ]
+  ],
+  "grain": 0.2,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.25,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "A1",
+  "name": "Calm",
+  "family": "Soft",
+  "inspiredBy": "calm mood recipe",
+  "character": "Quiet, cool, low contrast",
+  "recipe": [
+   [
+    "m-saturation",
+    -0.2
+   ],
+   [
+    "m-brightness",
+    0.05
+   ],
+   [
+    "m-contrast",
+    -0.1
+   ],
+   [
+    "rgb",
+    0.98,
+    1,
+    1.02
+   ]
+  ],
+  "grain": 0.1,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "A2",
+  "name": "Romantic",
+  "family": "Soft",
+  "inspiredBy": "romantic mood recipe",
+  "character": "Warm, soft, flattering",
+  "recipe": [
+   [
+    "rgb",
+    1.1,
+    1,
+    0.9
+   ],
+   [
+    "m-brightness",
+    0.08
+   ],
+   [
+    "m-contrast",
+    -0.1
+   ],
+   [
+    "m-saturation",
+    -0.05
+   ]
+  ],
+  "grain": 0.1,
+  "grainSize": 1,
+  "halation": 0.05,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "A3",
+  "name": "Spring",
+  "family": "Soft",
+  "inspiredBy": "spring mood recipe",
+  "character": "Fresh greens, bright",
+  "recipe": [
+   [
+    "m-saturation",
+    0.2
+   ],
+   [
+    "rgb",
+    0.95,
+    1.1,
+    0.95
+   ],
+   [
+    "m-brightness",
+    0.08
+   ],
+   [
+    "m-contrast",
+    0.05
+   ]
+  ],
+  "grain": 0.05,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "A4",
+  "name": "Nordic",
+  "family": "Soft",
+  "inspiredBy": "nordic light recipe",
+  "character": "Cool, pale, clean",
+  "recipe": [
+   [
+    "rgb",
+    0.9,
+    0.95,
+    1.1
+   ],
+   [
+    "m-saturation",
+    -0.2
+   ],
+   [
+    "m-brightness",
+    0.05
+   ],
+   [
+    "m-contrast",
+    0.05
+   ]
+  ],
+  "grain": 0.05,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "A5",
+  "name": "Melancholy",
+  "family": "Soft",
+  "inspiredBy": "melancholic mood recipe",
+  "character": "Blue, faded, quiet",
+  "recipe": [
+   [
+    "m-saturation",
+    -0.3
+   ],
+   [
+    "m-brightness",
+    -0.08
+   ],
+   [
+    "tint",
+    0,
+    50,
+    150,
+    0.1
+   ],
+   [
+    "m-contrast",
+    -0.05
+   ]
+  ],
+  "grain": 0.15,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0.1,
+  "source": "color_filter_extension (MIT)"
+ },
+ {
+  "code": "A6",
+  "name": "Soft Gingham",
+  "family": "Soft",
+  "inspiredBy": "light Gingham values",
+  "character": "Barely-there vintage softness",
+  "recipe": [
+   [
+    "css-sepia",
+    0.04
+   ],
+   [
+    "css-contrast",
+    0.85
+   ]
+  ],
+  "grain": 0.05,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "react-native-gl-image-filters (MIT)"
+ },
+ {
+  "code": "A7",
+  "name": "Soft Slumber",
+  "family": "Soft",
+  "inspiredBy": "light Slumber values",
+  "character": "Hazy, gently desaturated",
+  "recipe": [
+   [
+    "css-brightness",
+    1.1
+   ],
+   [
+    "css-saturate",
+    0.5
+   ]
+  ],
+  "grain": 0.1,
+  "grainSize": 1,
+  "halation": 0,
+  "vignette": 0,
+  "source": "react-native-gl-image-filters (MIT)"
+ }
+]

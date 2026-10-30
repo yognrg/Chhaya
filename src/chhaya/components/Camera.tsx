@@ -20,7 +20,6 @@ import { getLook, LOOKS, NO_LOOK } from "../looks";
 import { Icon } from "./Icon";
 import { UploadButton } from "./UploadButton";
 
-const CAMERA_LOOKS = [NO_LOOK, ...LOOKS.map((l) => l.id)];
 const COUNT_FROM = 3;
 /** Live ASCII uses fewer columns than the editor so it stays smooth on phones. */
 const LIVE_ASCII = { ...DEFAULT_ASCII, enabled: true, cols: 72 };
@@ -231,8 +230,10 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
 
   const stepLook = useCallback(
     (dir: number) => {
-      const i = CAMERA_LOOKS.indexOf(lookRef.current);
-      const next = CAMERA_LOOKS[(i + dir + CAMERA_LOOKS.length) % CAMERA_LOOKS.length];
+      // Read the list each time: imported LUTs can be added while the app is open.
+      const all = [NO_LOOK, ...LOOKS.map((l) => l.id)];
+      const i = all.indexOf(lookRef.current);
+      const next = all[(i + dir + all.length) % all.length];
       onLookChange(next);
     },
     [onLookChange],
