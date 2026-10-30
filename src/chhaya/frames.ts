@@ -90,6 +90,73 @@ function caption(ctx: Ctx, text: string, cx: number, cy: number, size: number, c
   ctx.restore();
 }
 
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+const PINK = "#ff4f9a";
+
+/**
+ * The Chhaya mark: "Chhaya" with the pink dot as its full stop, the date in
+ * smaller type underneath. Centred on `cx`, sitting on `bottom`.
+ */
+function watermark(ctx: Ctx, cx: number, bottom: number, size: number, when: Date, ink: string, faint: string, glow = false) {
+  const date = `${when.getDate()} ${MONTHS[when.getMonth()]} ${when.getFullYear()}`;
+  const dateSize = size * 0.62;
+  ctx.save();
+  ctx.textBaseline = "alphabetic";
+  ctx.textAlign = "left";
+  if (glow) {
+    // A soft halo keeps the mark readable on busy photos.
+    ctx.shadowColor = ink.startsWith("rgba(246") ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)";
+    ctx.shadowBlur = size * 0.4;
+  }
+  ctx.font = `${size}px ${displayFont()}`;
+  const word = ctx.measureText("Chhaya").width;
+  // The full stop is a real pink dot, like the wordmark, so it reads even at this size.
+  const r = size * 0.1;
+  const gap = size * 0.06;
+  const wordY = bottom - dateSize * 1.25;
+  const x = cx - (word + gap + 2 * r) / 2;
+  ctx.fillStyle = ink;
+  ctx.fillText("Chhaya", x, wordY);
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = PINK;
+  ctx.beginPath();
+  ctx.arc(x + word + gap + r, wordY - r, r, 0, Math.PI * 2);
+  ctx.fill();
+  if (glow) ctx.shadowBlur = size * 0.4;
+  ctx.font = `${dateSize}px ${displayFont()}`;
+  ctx.textAlign = "center";
+  ctx.fillStyle = faint;
+  ctx.fillText(date, cx, bottom);
+  ctx.restore();
+}
+
+/** Total height of the watermark for a given size, used to leave room for it. */
+const markHeight = (size: number) => size * (0.8 + 0.62 * 1.25);
+
+/** Picks light or dark ink from the brightness of what's already drawn under the mark. */
+function inkFor(ctx: Ctx, region: Rect) {
+  const c = document.createElement("canvas");
+  c.width = 16;
+  c.height = 4;
+  const g = c.getContext("2d", { willReadFrequently: true })!;
+  g.drawImage(ctx.canvas, region.x, region.y, Math.max(1, region.w), Math.max(1, region.h), 0, 0, 16, 4);
+  const d = g.getImageData(0, 0, 16, 4).data;
+  let sum = 0;
+  for (let i = 0; i < d.length; i += 4) sum += (0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]) / 255;
+  return sum / (d.length / 4) > 0.55
+    ? { ink: "rgba(20,20,19,0.82)", faint: "rgba(20,20,19,0.6)" }
+    : { ink: "rgba(246,245,242,0.92)", faint: "rgba(246,245,242,0.72)" };
+}
+
+/** The mark on the photo itself, bottom centre, in ink that suits the photo. */
+function markOnPhoto(ctx: Ctx, image: Rect, when: Date) {
+  const size = Math.max(9, Math.min(image.w, image.h) * 0.032);
+  const h = markHeight(size);
+  const margin = size * 0.9;
+  const { ink, faint } = inkFor(ctx, { x: image.x + image.w * 0.35, y: image.y + image.h - margin - h, w: image.w * 0.3, h });
+  watermark(ctx, image.x + image.w / 2, image.y + image.h - margin, size, when, ink, faint, true);
+}
+
 /** Orange seven-segment-style date in the corner, like a 90s point-and-shoot. */
 function dateStamp(ctx: Ctx, r: Rect, when: Date) {
   const p = (n: number) => String(n).padStart(2, "0");
@@ -129,6 +196,7 @@ export function compose(
     ctx.drawImage(img, 0, 0, iw, ih);
     const image = { x: 0, y: 0, w: iw, h: ih };
     if (f.date) dateStamp(ctx, image, date);
+    markOnPhoto(ctx, image, date);
     return { canvas: c, image };
   }
 
@@ -142,6 +210,14 @@ export function compose(
     const image = { x: t, y: t, w: iw, h: ih };
     ctx.drawImage(img, image.x, image.y, iw, ih);
     if (f.date) dateStamp(ctx, image, date);
+    const size = Math.min(iw, ih) * 0.03;
+    if (t > markHeight(size) * 1.4) {
+      const white = f.borderColor === "white";
+      watermark(ctx, c.width / 2, c.height - (t - markHeight(size)) / 2, size, date,
+        white ? "#2b2a27" : "#f2f1ee", white ? "#6e6c66" : "#a3a19b");
+    } else {
+      markOnPhoto(ctx, image, date);
+    }
     return { canvas: c, image };
   }
 
@@ -172,7 +248,10 @@ export function compose(
     ctx.strokeRect(image.x, image.y, image.w, image.h);
     if (f.date) dateStamp(ctx, image, date);
     const bottomTop = image.y + image.h;
-    caption(ctx, f.caption, card.w / 2, bottomTop + (card.h - bottomTop) / 2, A * 0.075, "#2b2a27");
+    const band = card.h - bottomTop;
+    const size = A * 0.032;
+    caption(ctx, f.caption, card.w / 2, bottomTop + band * 0.38, Math.min(A * 0.07, band * 0.28), "#2b2a27");
+    watermark(ctx, card.w / 2, card.h - Math.min(band * 0.14, A * 0.035), size, date, "#2b2a27", "#7a7871");
     return { canvas: c, image };
   }
 
@@ -193,12 +272,10 @@ export function compose(
       ctx.drawImage(img, 0, i * sh, iw, sh, dst.x, dst.y, dst.w, dst.h);
       if (f.date && i === n - 1) dateStamp(ctx, dst, date);
     }
-    const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
     const footTop = pad + n * sh + (n - 1) * gap;
     const ink = dark ? "#f2f1ee" : "#2b2a27";
-    const line = f.caption || "chhaya";
-    caption(ctx, line, c.width / 2, footTop + foot * 0.42, iw * 0.11, ink);
-    caption(ctx, `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`, c.width / 2, footTop + foot * 0.72, iw * 0.06, dark ? "#a3a19b" : "#6e6c66");
+    caption(ctx, f.caption, c.width / 2, footTop + foot * 0.36, iw * 0.08, ink);
+    watermark(ctx, c.width / 2, c.height - foot * 0.16, iw * 0.05, date, ink, dark ? "#a3a19b" : "#7a7871");
     return { canvas: c, image: { x: pad, y: pad, w: iw, h: n * sh + (n - 1) * gap } };
   }
 
@@ -231,5 +308,6 @@ export function compose(
   const image = { x: side, y: band, w: W, h: H };
   cover(ctx, img, iw, ih, image);
   if (f.date) dateStamp(ctx, image, date);
+  markOnPhoto(ctx, image, date);
   return { canvas: c, image };
 }
