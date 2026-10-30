@@ -7,6 +7,7 @@ import { Develop, type Tab } from "./components/Develop";
 import { DEFAULT_EDIT, type Edit, mergeEdit } from "./edit";
 import { Intro } from "./components/Intro";
 import { NO_LOOK } from "./looks";
+import { loadImportedLuts } from "./lut-import";
 
 type Screen = "intro" | "camera" | "develop";
 
@@ -20,6 +21,9 @@ export function Chhaya() {
   const [mode, setMode] = useState<CameraMode>("photo");
   const [start, setStart] = useState<{ edit: Edit; tab: Tab }>({ edit: DEFAULT_EDIT, tab: "looks" });
   const [error, setError] = useState<string | null>(null);
+
+  // LUTs imported on an earlier visit become looks again.
+  useEffect(() => void loadImportedLuts(), []);
 
   const open = useCallback((p: Photo, origin: "intro" | "camera", shotMode: CameraMode = "photo") => {
     // The camera's look carries over; ASCII and strip shots open ready to go.

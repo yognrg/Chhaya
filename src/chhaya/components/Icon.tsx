@@ -84,6 +84,15 @@ const PATHS = {
       <path d="M4 15h16M4 10h16" opacity="0.5" />
     </>
   ),
+  dust: (
+    <>
+      <circle cx="7" cy="8" r="1.3" fill="currentColor" stroke="none" />
+      <circle cx="15.5" cy="6.5" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="11" cy="14" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="17.5" cy="16.5" r="1.1" fill="currentColor" stroke="none" />
+      <path d="M5 19c3-1 5-4 6-7" />
+    </>
+  ),
   halation: (
     <>
       <circle cx="12" cy="12" r="3.5" />
@@ -105,6 +114,7 @@ const PATHS = {
   crop: <path d="M7 3v14h14M3 7h14v14" />,
   rotate: <path d="M5 13a7 7 0 1 0 2-5.5M5 4v4h4" />,
   flipH: <path d="M12 3v18M9 7 4 17h5ZM15 7l5 10h-5Z" />,
+  star: <path d="m12 3.8 2.5 5.2 5.7.8-4.1 4 1 5.6L12 16.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8Z" />,
   plus: <path d="M12 5v14M5 12h14" />,
   copy: (
     <>

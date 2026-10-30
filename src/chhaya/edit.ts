@@ -122,6 +122,8 @@ export type Edit = {
   grainSize: number;
   grainRough: number;
   fade: number;
+  /** Dust specks and fine scratches, 0 … 100. */
+  dust: number;
   halation: number;
   leak: number;
   leakStyle: number;
@@ -165,6 +167,7 @@ export const DEFAULT_EDIT: Edit = {
   grainSize: 50,
   grainRough: 50,
   fade: 0,
+  dust: 0,
   halation: 0,
   leak: 0,
   leakStyle: 0,
@@ -300,6 +303,7 @@ export const TOOLS: Tool[] = [
     params: [num("grain", "Amount", 0, 100), num("grainSize", "Size", 0, 100), num("grainRough", "Roughness", 0, 100)],
   },
   { id: "fade", label: "Fade", short: "Fade", group: "Film", params: [num("fade", "Fade", 0, 100)] },
+  { id: "dust", label: "Dust", short: "Dust", group: "Film", params: [num("dust", "Dust", 0, 100)] },
   { id: "halation", label: "Halation", short: "Halation", group: "Film", params: [num("halation", "Halation", 0, 100)] },
   {
     id: "leak",

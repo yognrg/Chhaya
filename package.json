@@ -22,5 +22,12 @@
   },
   "engines": {
     "node": ">=20.9.0"
-  }
+  },
+  "license": "MIT",
+  "author": "Yog Urkundwar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yognrg/Chhaya"
+  },
+  "homepage": "https://chhaya-two.vercel.app"
 }

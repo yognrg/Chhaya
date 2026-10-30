@@ -58,7 +58,7 @@ const UNIFORMS = [
   "uExposure", "uContrast", "uHighlights", "uShadows", "uWhites", "uBlacks",
   "uTemp", "uTint", "uSaturation", "uVibrance", "uSkin", "uHsl", "uSplit", "uSplitBalance",
   "uClarity", "uTexture", "uSharpness", "uDehaze", "uLutMix",
-  "uFade", "uHalation", "uLeak", "uLeakStyle",
+  "uFade", "uDust", "uHalation", "uLeak", "uLeakStyle",
   "uGrain", "uGrainSize", "uGrainRough", "uGrainOffset",
   "uVignette", "uVigMid", "uBlur", "uBlurMode",
 ] as const;
@@ -228,6 +228,7 @@ export class Renderer {
     gl.uniform1f(u.uDehaze, e.dehaze / 100);
     gl.uniform1f(u.uLutMix, mix);
     gl.uniform1f(u.uFade, (e.fade / 100) * 0.3);
+    gl.uniform1f(u.uDust, e.dust / 100);
     gl.uniform1f(u.uHalation, Math.min(1, (look?.halation ?? 0) * mix + e.halation / 100));
     gl.uniform1f(u.uLeak, e.leak / 100);
     gl.uniform1i(u.uLeakStyle, e.leakStyle);

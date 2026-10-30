@@ -1,45 +1,173 @@
-# Chhaya.
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.png">
+    <img src="docs/assets/logo-light.png" alt="Chhaya. a film camera for moments" width="420">
+  </picture>
+</p>
 
-छाया · "shadow, image" in Marathi. *A film camera for moments.*
+<p align="center">
+  <a href="https://chhaya-two.vercel.app"><strong>Open the app</strong></a> ·
+  <a href="docs/plan.md">Product plan</a> ·
+  <a href="CHANGELOG.md">Changelog</a> ·
+  <a href="CREDITS.md">Credits</a>
+</p>
 
-A camera booth on the web that shoots film-look photos, turns them into ASCII art, and prints them as Polaroids and photo strips. Everything runs on the phone or laptop. No sign-in, no uploads.
+<p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-141413"></a>
+  <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-141413">
+  <img alt="WebGL2" src="https://img.shields.io/badge/WebGL2-shader%20pipeline-141413">
+  <img alt="On-device" src="https://img.shields.io/badge/photos-never%20uploaded-FF4F9A">
+</p>
 
-## Run it
+**Chhaya** (छाया, "shadow, image" in Marathi) is a camera booth on the web. Shoot film-look photos, turn them into ASCII art, and print them as Polaroids and photo strips. Everything runs in your browser: no sign-in, no uploads.
+
+<p align="center">
+  <img src="docs/assets/screens.jpg" alt="Chhaya on a phone: intro, presets, an Instant 600 print and ASCII art with CRT glow" width="100%">
+</p>
+
+## Features
+
+**Shoot**
+- Live viewfinder with the look already applied. Swipe to change looks.
+- Photo, Strip (4 booth shots) and live ASCII modes.
+- 3-2-1 countdown, flash, front/back camera, mirror on/off.
+- Upload or drag and drop instead of shooting.
+
+**Looks and presets**
+- 125 looks: 40 hand-tuned film looks plus 85 recipe looks (Instagram style, vintage, film stocks, black and white, cinematic, soft). Strength 0–12.
+- 101 presets in six categories, with a 0–100 intensity slider, ★ favourites and saving your own.
+- Import your own LUTs: `.cube` or HaldCLUT `.png`.
+
+**Edit**
+- 24 tools in six groups:
+  - Light: exposure, contrast, highlights, shadows, whites/blacks.
+  - Colour: temperature, tint, saturation, vibrance, skin tone, HSL (8 colours), split tone.
+  - Detail: clarity, texture, sharpness, dehaze.
+  - Film: grain (amount, size, roughness), fade, dust, halation, light leaks.
+  - Effects: vignette, blur and tilt-shift.
+  - Crop: 8 ratios, rotate, flip, straighten.
+- Hold the photo to compare, plus undo and redo.
+
+**ASCII**
+- 8 character sets, including braille, blocks, matrix and moon phases. 40–240 columns.
+- 7 colour styles, edge lines, and 4 dithering modes (including Floyd–Steinberg and Atkinson).
+- 4 fonts, any background, and a CRT glow.
+- Export as PNG, TXT or HTML, or copy the text.
+
+**Print**
+- Instant 600, SX-70, Mini, Wide, photo strip, 35mm film and plain border.
+- Caption, orange date stamp, paper texture, and a develop-from-white animation.
+- Every photo carries a small "Chhaya." watermark that switches between light and dark ink to suit the photo.
+
+**Save**
+- Full-size PNG or JPG through the same GPU pipeline as the preview.
+- Share sheet on phones.
+
+<p align="center">
+  <img src="docs/assets/desktop.jpg" alt="Chhaya on desktop: photo in the centre, presets and tools in a slim right column" width="100%">
+</p>
+
+## Quick start
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000. The camera needs `localhost` or HTTPS.
+Open http://localhost:3000. The camera needs `localhost` or HTTPS. Other scripts: `npm run build`, `npm start`, `npm run typecheck`.
 
-## What's in it
+Deploys to Vercel with no settings: `vercel.json` pins the Next.js preset.
 
-- **Camera:** Photo, Strip (4 shots, booth style) and live ASCII modes. Looks apply live; swipe to change. Countdown, flash, front/back camera, upload or drag and drop.
-- **Presets:** the 16 from the plan, plus "Save" to keep your own (stored on this device only).
-- **Looks:** all 40 film looks (K, F, S, P, C, N, T families) with strength 0–12.
-- **Adjust:** 22 tools in six groups. Light: exposure, contrast, highlights, shadows, whites/blacks. Colour: temperature, tint, saturation, vibrance, skin tone, HSL (8 colours), split tone. Detail: clarity, texture, sharpness, dehaze. Film: grain (amount, size, roughness), fade, halation, light leak (4 styles). Effects: vignette (amount, midpoint), blur/tilt-shift. Crop: 8 aspect ratios, rotate, flip, straighten.
-- **ASCII:** 8 character sets (standard, dense, blocks, braille, binary, matrix, moons, custom), 40–240 columns, 7 colour styles (incl. duotone, terminal, amber), brightness/contrast/gamma, edge lines, 4 dithering modes (ordered, Floyd–Steinberg, Atkinson), invert, 4 fonts, background (black, paper, transparent, custom), CRT glow. Export PNG, TXT, HTML or copy the text.
-- **Print:** Instant 600, SX-70, Mini, Wide, photo strip, 35mm film and plain border, with Cirka-style caption, orange date stamp, paper texture and a develop-from-white animation.
-- Hold the photo to compare, undo/redo, full-size export through the same pipeline as the preview.
+## How it works
 
-Still to come: tone curve editor, ASCII GIF loop, Studio gallery, sounds and haptics polish.
+```mermaid
+flowchart LR
+  A[Camera or photo] --> B[WebGL2 shader<br/>geometry · tone · colour · HSL]
+  B --> C[Film look<br/>33³ 3D LUT]
+  C --> D[Grain · dust · halation<br/>leaks · vignette]
+  D --> E[ASCII<br/>optional]
+  E --> F[Print frame<br/>+ watermark]
+  F --> G[PNG / JPG / TXT / HTML]
+```
 
-## How it's built
+- One shader pass does the whole edit. The live viewfinder, preview, thumbnails and export all use it, so they always match. Blurs (clarity, halation, tilt-shift) read the source's mipmaps, so it stays live on phones.
+- Every look ends up as a 33³ LUT. Hand-tuned looks are colour settings, recipe looks are short lists of colour steps, and imported LUTs are resampled. All three render the same way.
+- ASCII and print frames are drawn on a 2D canvas after the GPU pass.
 
-- Next.js 16 + React 19, no UI libraries.
-- `src/chhaya/gl/` is a raw WebGL2 shader pipeline, one pass: geometry → detail → white balance and exposure → tone → colour and HSL → film LUT → split tone → fade → halation → leak → grain → vignette. Blurs read the source's mipmaps, so it stays live on phones.
-- `ascii.ts` turns the graded frame into characters; `frames.ts` lays out the prints; `finish.ts` chains them. The viewfinder, preview, thumbnails and export all use it, so they look identical.
-- `src/chhaya/looks.ts`: each look is a small set of colour parameters baked into a 33³ 3D LUT on first use. Hand-graded LUT PNGs can replace the baked ones later without changes to the pipeline.
-- `src/chhaya/edit.ts`: an edit is plain data (look, strength and tool values), which makes undo, presets and saving easy.
-- Grain samples a pre-made noise texture and scales with output size, so the saved photo matches the preview.
+## Project structure
+
+```
+src/
+  app/                   Next.js app: layout, page, global styles, icons
+  chhaya/
+    Chhaya.tsx           screens: intro → camera → develop
+    components/          Camera, Develop, Adjust/ASCII/Print panels, slider, icons
+    gl/                  WebGL2 renderer and shaders
+    data/
+      recipe-looks.json  85 recipe looks (one entry per look)
+      presets.json       101 presets (one entry per preset)
+    looks.ts             the 40 hand-tuned looks and LUT baking
+    recipes.ts           recipe steps: CSS filters, blend modes, colour matrix
+    presets.ts           categories, intensity blending, favourites
+    lut-import.ts        .cube and HaldCLUT import
+    edit.ts              the edit model and the 24 tools
+    ascii.ts             photo → characters
+    frames.ts            prints and the watermark
+docs/                    product plan, filter guide, logo and screenshots
+```
+
+## Add a look or preset
+
+Looks and presets are data, so adding one means adding one JSON entry.
+
+A recipe look in `src/chhaya/data/recipe-looks.json`:
+
+```json
+{
+  "code": "V14", "name": "Monsoon Fade", "family": "Vintage",
+  "inspiredBy": "rainy-day prints", "character": "Cool, soft, faded",
+  "recipe": [["css-contrast", 0.9], ["rgb", 0.95, 1.0, 1.06], ["add", 18, 20, 24]],
+  "grain": 0.2, "grainSize": 1, "halation": 0, "vignette": 0.1,
+  "source": "Chhaya (own recipe)"
+}
+```
+
+A preset in `src/chhaya/data/presets.json`:
+
+```json
+{
+  "id": "monsoon-fade", "name": "Monsoon Fade", "category": "Vintage",
+  "goodFor": "Rainy streets", "intensity": 90,
+  "edit": { "look": "v14", "grain": 15, "dust": 10 }
+}
+```
+
+The recipe steps are listed in `src/chhaya/recipes.ts`. Categories are Vintage, Film, Instagram style, Cinematic, Black and white and Soft.
+
+## Import a LUT
+
+In the editor, open **Looks** and tap **+ LUT**. Pick a `.cube` file (any size) or a HaldCLUT `.png`. The LUT becomes a look and a preset under **Mine**, and it's saved in your browser. Check the license of any LUT pack before you share images made with it.
+
+## Privacy
+
+Photos are processed in your browser and never uploaded. The camera is only requested when you tap "start camera". Presets, favourites and imported LUTs are stored in your browser's local storage on that device.
 
 ## Fonts
 
-The design calls for **Cirka** (display) and **Gilroy** (UI). Until their woff2 files are in `public/fonts` (see `src/app/globals.css`), the app uses Instrument Serif and Plus Jakarta Sans as stand-ins, with Tiro Devanagari Marathi for छ. All three are self-hosted at build time by `next/font`.
+The design uses **Cirka** (display) and **Gilroy** (UI). Until their files are added to `public/fonts` (see `src/app/globals.css`), the app uses Instrument Serif and Plus Jakarta Sans, with Tiro Devanagari Marathi for छ. All fonts are self-hosted at build time by `next/font`.
 
-## Open decisions (from the plan)
+## Roadmap
 
-1. Look names: our own names with "inspired by" hints (used now), or brand names?
-2. Where it lives: `/playground/chhaya` in the portfolio, or its own site? The app is in `src/chhaya/`, so it can move into the portfolio as one folder.
-3. Sound: on or off by default? (No sounds yet.)
+- Tone curve editor
+- ASCII GIF loop
+- Studio gallery of past shots
+- Preset from a before/after photo pair
+- Sounds and haptics polish
+
+## Contributing
+
+Issues and pull requests are welcome. Keep looks and presets as data. Credit any reused values in `CREDITS.md`, and only reuse values from openly licensed sources.
+
+## License
+
+[MIT](LICENSE) © 2026 Yog Urkundwar. Values reused from other open source projects are credited in [CREDITS.md](CREDITS.md).
