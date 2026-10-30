@@ -287,7 +287,10 @@ export function gridToText(grid: AsciiGrid) {
     for (let x = 0; x < grid.cols; x++) line += grid.cells[y * grid.cols + x].ch;
     lines.push(line.replace(/\s+$/, ""));
   }
-  return lines.join("\n");
+  // Credit, centred under the art.
+  const credit = "Chhaya. · " + new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toLowerCase();
+  const pad = " ".repeat(Math.max(0, Math.floor((grid.cols - credit.length) / 2)));
+  return lines.join("\n") + "\n\n" + pad + credit + "\n";
 }
 
 export function gridToHtml(grid: AsciiGrid, s: AsciiSettings) {
@@ -302,5 +305,5 @@ export function gridToHtml(grid: AsciiGrid, s: AsciiSettings) {
   }
   const bg = background(s) ?? "transparent";
   return `<!doctype html><meta charset="utf-8"><title>Chhaya ASCII</title>
-<body style="margin:0;background:${bg}"><pre style="margin:0;padding:24px;font:10px/1.1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:0">${body}</pre></body>`;
+<body style="margin:0;background:${bg}"><pre style="margin:0;padding:24px;font:10px/1.1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:0">${body}</pre><p style="margin:0 0 24px;text-align:center;font:14px Georgia,serif;color:${isLightBg(s) ? "#2b2a27" : "#f2f1ee"}">Chhaya<span style="color:#ff4f9a">.</span></p></body>`;
 }
