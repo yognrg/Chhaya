@@ -75,12 +75,15 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
   const [stripThumbs, setStripThumbs] = useState<string[]>([]);
   const run = useRef(0);
   const swipe = useRef<{ x: number; y: number } | null>(null);
+  /** Set once a stream is playing; the next frame drawn from it marks the camera ready. */
+  const needReady = useRef(false);
 
   // Start (or restart, on flip) the camera.
   useEffect(() => {
     let stream: MediaStream | null = null;
     let cancelled = false;
     setReady(false);
+    needReady.current = false;
     startCamera(facing)
       .then(async (s) => {
         if (cancelled) return stopCamera(s);
@@ -88,6 +91,7 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
         const v = videoRef.current!;
         v.srcObject = s;
         await v.play().catch(() => {});
+        if (!cancelled) needReady.current = true;
         const devices = await navigator.mediaDevices.enumerateDevices().catch(() => []);
         setCanFlip(devices.filter((d) => d.kind === "videoinput").length > 1);
         setError(null);
@@ -121,15 +125,24 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
       raf = requestAnimationFrame(draw);
       if (video.readyState < 2 || !video.videoWidth) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      r.setSize(canvas.clientWidth * dpr, canvas.clientHeight * dpr);
-      r.setSource(video, video.videoWidth, video.videoHeight);
-      const crop = coverCrop(video.videoWidth, video.videoHeight, canvas.width, canvas.height);
-      r.render({
-        edit: { ...DEFAULT_EDIT, look: lookRef.current },
-        matrix: cropMatrix(crop, video.dataset.mirror === "1"),
-        span: video.videoWidth * crop.w,
-        grainSeed: frame++,
-      });
+      try {
+        r.setSize(canvas.clientWidth * dpr, canvas.clientHeight * dpr);
+        r.setSource(video, video.videoWidth, video.videoHeight);
+        const crop = coverCrop(video.videoWidth, video.videoHeight, canvas.width, canvas.height);
+        r.render({
+          edit: { ...DEFAULT_EDIT, look: lookRef.current },
+          matrix: cropMatrix(crop, video.dataset.mirror === "1"),
+          span: video.videoWidth * crop.w,
+          grainSeed: frame++,
+        });
+      } catch {
+        // iOS Safari can fail on a frame while the stream warms up; try the next one.
+        return;
+      }
+      if (needReady.current) {
+        needReady.current = false;
+        setReady(true);
+      }
       // ASCII at ~24fps, read straight from the frame just drawn.
       const ac = asciiRef.current;
       if (modeRef.current === "ascii" && ac && t - lastAscii > 40) {
@@ -142,7 +155,6 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
         }
         drawGrid(ac.getContext("2d")!, grid, LIVE_ASCII, size.width, size.height);
       }
-      if (frame === 1) setReady(true);
     };
     raf = requestAnimationFrame(draw);
     return () => {
