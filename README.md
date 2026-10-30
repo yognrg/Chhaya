@@ -80,15 +80,12 @@ Deploys to Vercel with no settings: `vercel.json` pins the Next.js preset.
 
 ## How it works
 
-```mermaid
-flowchart LR
-  A[Camera or photo] --> B[WebGL2 shader<br/>geometry · tone · colour · HSL]
-  B --> C[Film look<br/>33³ 3D LUT]
-  C --> D[Grain · dust · halation<br/>leaks · vignette]
-  D --> E[ASCII<br/>optional]
-  E --> F[Print frame<br/>+ watermark]
-  F --> G[PNG / JPG / TXT / HTML]
-```
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/pipeline-dark.png">
+    <img src="docs/assets/pipeline-light.png" alt="Pipeline: camera or photo, then the WebGL2 shader (geometry, tone, colour, HSL), the film look (33³ 3D LUT), finishing (grain, dust, halation, leaks, vignette), optional ASCII, the print frame with watermark, and save as PNG, JPG, TXT or HTML" width="100%">
+  </picture>
+</p>
 
 - One shader pass does the whole edit. The live viewfinder, preview, thumbnails and export all use it, so they always match. Blurs (clarity, halation, tilt-shift) read the source's mipmaps, so it stays live on phones.
 - Every look ends up as a 33³ LUT. Hand-tuned looks are colour settings, recipe looks are short lists of colour steps, and imported LUTs are resampled. All three render the same way.
