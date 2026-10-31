@@ -65,7 +65,12 @@
 
 **Save**
 - PNG or JPG through the same GPU pipeline as the preview, at least 3000px on the long side so text and the watermark stay sharp when zoomed. Prints are capped at 14 MP so phones can save them.
-- Share sheet on phones.
+- A save sheet that works on every device, inside a fresh tap so phones don't block it:
+  - iPhone/iPad: **Save to Photos** (share sheet) or Save to Files.
+  - Android: **Download** (lands in Downloads and the Gallery) or Share.
+  - Mac/Windows: downloads straight away, plus Download again, Copy image and Share where supported.
+  - Instagram, WhatsApp and other in-app browsers: press and hold the preview to save, with a hint to open the page in Safari or Chrome.
+  - If a phone runs out of memory on a big print, it saves a smaller version instead of failing.
 
 <p align="center">
   <img src="docs/assets/desktop.jpg" alt="Chhaya on desktop: photo in the centre, presets and tools in a slim right column" width="100%">

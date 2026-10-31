@@ -4,7 +4,7 @@ import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, use
 import { type AsciiGrid, gridToText } from "../ascii";
 import type { Photo } from "../camera";
 import { DEFAULT_EDIT, type Edit, isAdjusted, isEdited } from "../edit";
-import { deliver, type Format, renderFull } from "../export";
+import { detectDevice, downloadBlob, fileFor, type Format, renderFull } from "../export";
 import { finish } from "../finish";
 import { INSTANT_KINDS, type Rect } from "../frames";
 import { layout } from "../geometry";
@@ -29,6 +29,7 @@ import { Chips } from "./Chips";
 import { HairlineSlider } from "./HairlineSlider";
 import { Icon } from "./Icon";
 import { PrintPanel } from "./PrintPanel";
+import { type Ready, SaveSheet } from "./SaveSheet";
 import { UploadButton } from "./UploadButton";
 
 export type Tab = "presets" | "looks" | "adjust" | "ascii" | "print";
@@ -73,6 +74,7 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
   const strip = useMemo(() => [NO_LOOK, ...LOOKS.map((l) => l.id)], [lookVersion]);
   const [save, setSave] = useState<SaveState>("idle");
   const [savedOnce, setSavedOnce] = useState(false);
+  const [ready, setReady] = useState<Ready | null>(null);
 
   const stageRef = useRef<HTMLDivElement>(null);
   const displayRef = useRef<HTMLCanvasElement>(null);
@@ -294,14 +296,38 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
     setSave("working");
     try {
       const blob = await renderFull(photo, edit, format);
-      await deliver(blob, `${photo.name}${edit.ascii.enabled ? "-ascii" : ""}.${format}`);
-      setSave("done");
-      setSavedOnce(true);
-      setTimeout(() => setSave((s) => (s === "done" ? "idle" : s)), 1600);
+      const name = `${photo.name}${edit.ascii.enabled ? "-ascii" : ""}.${blob.type === "image/png" && format === "jpg" ? "png" : format}`;
+      const file = fileFor(blob, name);
+      const device = detectDevice(file);
+      const url = URL.createObjectURL(blob);
+      // On a computer a download needs no fresh tap, so start it straight away
+      // (Chrome, Edge, Firefox and Safari all allow one). Phones and in-app
+      // browsers need the tap from the sheet, so they wait for it.
+      const autoSaved = !device.touch && !device.ios && !device.android && !device.inApp;
+      if (autoSaved) {
+        downloadBlob(blob, name, url);
+        setSavedOnce(true);
+      }
+      setReady({ blob, file, name, url, device, autoSaved });
+      setSave("idle");
     } catch (err) {
       setSave((err as DOMException)?.name === "AbortError" ? "idle" : "error");
     }
   };
+
+  const closeSheet = useCallback(() => {
+    setReady((r) => {
+      // Keep the URL alive a little: a download may still be reading it.
+      if (r) setTimeout(() => URL.revokeObjectURL(r.url), 60_000);
+      return null;
+    });
+  }, []);
+
+  const markSaved = useCallback(() => {
+    setSavedOnce(true);
+    setSave("done");
+    setTimeout(() => setSave((s) => (s === "done" ? "idle" : s)), 1600);
+  }, []);
 
   const copyAscii = async () => {
     const grid = gridRef.current;
@@ -435,6 +461,7 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
           {save === "error" && <p className="ch-save-error" role="alert">couldn't save. try again.</p>}
         </div>
       </header>
+      {ready && <SaveSheet ready={ready} onClose={closeSheet} onSaved={markSaved} />}
 
       <div className="ch-stage" ref={stageRef}>
         <div className="ch-photo-wrap" style={shown ? { width: shown.w, height: shown.h } : undefined}>
