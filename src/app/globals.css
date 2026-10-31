@@ -1641,3 +1641,110 @@ button:disabled {
 .ch-camera.is-glow .ch-shutter-ring circle {
   stroke: rgba(15, 15, 14, 0.45);
 }
+
+/* Save sheet: shown once the photo is developed. Its buttons are fresh taps,
+   which phones need before they share or download. */
+.ch-sheet-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: end center;
+  padding: var(--space-2);
+  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
+  background: rgba(15, 15, 14, 0.5);
+  animation: ch-fade 200ms var(--ease) both;
+}
+@media (min-width: 720px) {
+  .ch-sheet-scrim {
+    place-items: center;
+  }
+}
+.ch-sheet {
+  width: 100%;
+  max-width: 420px;
+  max-height: calc(100dvh - var(--space-4));
+  overflow-y: auto;
+  padding: var(--space-2);
+  border-radius: var(--r-sheet);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  animation: ch-rise 250ms var(--ease) both;
+}
+.ch-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: var(--space-1);
+}
+.ch-sheet-img {
+  display: block;
+  width: 100%;
+  max-height: 48dvh;
+  object-fit: contain;
+  border-radius: var(--r-thumb);
+  background: var(--chip-bg);
+  /* Let iOS show its "Save to Photos" menu on press and hold. */
+  -webkit-touch-callout: default;
+  user-select: auto;
+}
+.ch-sheet-file {
+  padding: var(--space-4) var(--space-2);
+  border-radius: var(--r-thumb);
+  background: var(--chip-bg);
+  text-align: center;
+  font-size: 13px;
+  word-break: break-all;
+}
+.ch-sheet-meta {
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
+  word-break: break-all;
+}
+.ch-sheet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.ch-sheet-actions .ch-pill {
+  width: 100%;
+  height: 48px;
+  font-size: 15px;
+}
+.ch-sheet-alt {
+  background: var(--chip-bg);
+  color: var(--fg);
+}
+.ch-sheet-note {
+  margin: 0;
+  min-height: 16px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--fg-2);
+}
+.ch-sheet-warn {
+  margin: 0;
+  display: flex;
+  gap: var(--space-1);
+  align-items: flex-start;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--r-thumb);
+  background: rgba(255, 79, 154, 0.1);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.ch-sheet-warn .ch-icon {
+  flex: none;
+  color: var(--pink, #ff4f9a);
+  margin-top: 1px;
+}
+@keyframes ch-fade {
+  from {
+    opacity: 0;
+  }
+}

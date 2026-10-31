@@ -1,5 +1,15 @@
 # Changelog
 
+## Saving works on every device
+
+- **Save sheet:** after a photo develops, a sheet shows the photo with buttons that work because they are tapped directly. Before, the share sheet or download started seconds after the tap, so iPhones and some Android phones refused it.
+  - iPhone/iPad: Save to Photos (share sheet) or Save to Files.
+  - Android: Download (Downloads and Gallery) or Share.
+  - Mac/Windows: downloads at once; Download again, Copy image, and Share where supported.
+- **In-app browsers** (Instagram, WhatsApp, Facebook, Snapchat, TikTok…): a hint to press and hold the photo or open the page in Safari/Chrome. The preview uses a data URL so press-and-hold saving works there.
+- **Downloads no longer cut off:** the file link stays valid for a minute instead of 2 seconds.
+- **Memory fallback:** if a phone can't make a full-size image, it retries at 2048px, then half size, instead of failing.
+
 ## Camera tools, grids and sharper saves
 
 - **Camera toolbar:**

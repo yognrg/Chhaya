@@ -53,5 +53,8 @@
   "invert": "arrow-left-right",
   "font": "type",
   "background": "square",
-  "crt": "monitor"
+  "crt": "monitor",
+  "share": "share",
+  "imageDown": "image-down",
+  "external": "external-link"
 }

@@ -56,4 +56,7 @@ export const ICONS = {
   font: "<path d=\"M12 4v16\" /> <path d=\"M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2\" /> <path d=\"M9 20h6\" />",
   background: "<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" />",
   crt: "<rect width=\"20\" height=\"14\" x=\"2\" y=\"3\" rx=\"2\" /> <line x1=\"8\" x2=\"16\" y1=\"21\" y2=\"21\" /> <line x1=\"12\" x2=\"12\" y1=\"17\" y2=\"21\" />",
+  share: "<path d=\"M12 2v13\" /> <path d=\"m16 6-4-4-4 4\" /> <path d=\"M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8\" />",
+  imageDown: "<path d=\"M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21\" /> <path d=\"m14 19 3 3v-5.5\" /> <path d=\"m17 22 3-3\" /> <circle cx=\"9\" cy=\"9\" r=\"2\" />",
+  external: "<path d=\"M15 3h6v6\" /> <path d=\"M10 14 21 3\" /> <path d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\" />",
 } as const;
