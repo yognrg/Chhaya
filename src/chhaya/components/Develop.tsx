@@ -166,7 +166,7 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
   // Instant prints develop from milky white, like the real thing.
   useEffect(() => {
     const k = edit.frame.kind;
-    if (k !== lastKind.current && [...INSTANT_KINDS, "strip"].includes(k)) setDevelopKey((n) => n + 1);
+    if (k !== lastKind.current && [...INSTANT_KINDS, "strip", "grid"].includes(k)) setDevelopKey((n) => n + 1);
     lastKind.current = k;
   }, [edit.frame.kind]);
 
@@ -389,7 +389,7 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
             className="ch-icon-btn"
             onClick={() => {
               setPresetId(null);
-              history.push({ ...DEFAULT_EDIT, frame: photo.strip > 1 ? { ...DEFAULT_EDIT.frame, kind: "strip" } : DEFAULT_EDIT.frame });
+              history.push({ ...DEFAULT_EDIT, frame: photo.strip > 1 ? { ...DEFAULT_EDIT.frame, kind: "grid", grid: edit.frame.grid } : DEFAULT_EDIT.frame });
             }}
             disabled={!isEdited(edit)}
             aria-label="Reset all edits"

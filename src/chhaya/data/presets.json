@@ -133,7 +133,8 @@
   "edit": {
    "look": "t6",
    "frame": {
-    "kind": "strip"
+    "kind": "grid",
+    "grid": "4-strip"
    }
   }
  },

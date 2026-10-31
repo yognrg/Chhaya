@@ -7,13 +7,19 @@ import { Renderer } from "./gl/renderer";
 
 export type Format = "png" | "jpg" | "txt" | "html";
 
+const MIN_LONG_SIDE = 3000;
+
 /** Renders the edit at full size with the same pipeline as the preview. */
 export async function renderFull(photo: Photo, edit: Edit, format: Format): Promise<Blob> {
   const canvas = document.createElement("canvas");
   const r = new Renderer(canvas, { preserve: true });
   try {
     const lay = layout(photo.width, photo.height, edit.geometry);
-    r.setSize(lay.width, lay.height);
+    // Never save small: render at least 3000px on the long side (smoothly upsampled on
+    // the GPU), so text, frames and the Chhaya mark are drawn sharp at that size and
+    // stay crisp when zoomed. Grids are already tall, so they rarely need it.
+    const scale = Math.max(1, MIN_LONG_SIDE / Math.max(lay.width, lay.height));
+    r.setSize(lay.width * scale, lay.height * scale);
     r.setSource(photo.bitmap, photo.width, photo.height);
     r.render({ edit, matrix: lay.matrix, span: lay.span, grainSeed: 0 });
     await document.fonts?.ready;
@@ -28,7 +34,7 @@ export async function renderFull(photo: Photo, edit: Edit, format: Format): Prom
     }
     const transparent = edit.ascii.enabled && edit.ascii.background === "transparent" && edit.frame.kind === "none";
     const type = format === "png" || transparent ? "image/png" : "image/jpeg";
-    const blob = await new Promise<Blob | null>((res) => out.canvas.toBlob(res, type, 0.94));
+    const blob = await new Promise<Blob | null>((res) => out.canvas.toBlob(res, type, 0.95));
     if (!blob) throw new Error("export-failed");
     return blob;
   } finally {

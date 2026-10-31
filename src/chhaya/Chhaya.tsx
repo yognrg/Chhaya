@@ -8,6 +8,7 @@ import { DEFAULT_EDIT, type Edit, mergeEdit } from "./edit";
 import { Intro } from "./components/Intro";
 import { NO_LOOK } from "./looks";
 import { loadImportedLuts } from "./lut-import";
+import { DEFAULT_GRID } from "./grids";
 
 type Screen = "intro" | "camera" | "develop";
 
@@ -19,19 +20,20 @@ export function Chhaya() {
   const [shot, setShot] = useState(0);
   const [look, setLook] = useState(NO_LOOK);
   const [mode, setMode] = useState<CameraMode>("photo");
+  const [grid, setGrid] = useState(DEFAULT_GRID);
   const [start, setStart] = useState<{ edit: Edit; tab: Tab }>({ edit: DEFAULT_EDIT, tab: "looks" });
   const [error, setError] = useState<string | null>(null);
 
   // LUTs imported on an earlier visit become looks again.
   useEffect(() => void loadImportedLuts(), []);
 
-  const open = useCallback((p: Photo, origin: "intro" | "camera", shotMode: CameraMode = "photo") => {
+  const open = useCallback((p: Photo, origin: "intro" | "camera", shotMode: CameraMode = "photo", gridId = DEFAULT_GRID) => {
     // The camera's look carries over; ASCII and strip shots open ready to go.
     setStart({
       edit: mergeEdit(DEFAULT_EDIT, {
         look: origin === "camera" ? look : NO_LOOK,
         ascii: { enabled: shotMode === "ascii" },
-        frame: { kind: p.strip > 1 ? "strip" : "none" },
+        frame: p.strip > 1 ? { kind: "grid", grid: gridId } : { kind: "none" },
       }),
       tab: shotMode === "ascii" ? "ascii" : p.strip > 1 ? "print" : "looks",
     });
@@ -79,7 +81,9 @@ export function Chhaya() {
           mode={mode}
           onModeChange={setMode}
           onLookChange={setLook}
-          onCapture={(p, m) => open(p, "camera", m)}
+          onCapture={(p, m, g) => open(p, "camera", m, g)}
+          grid={grid}
+          onGridChange={setGrid}
           onUpload={(f) => upload(f, "camera")}
           onClose={() => setScreen("intro")}
         />

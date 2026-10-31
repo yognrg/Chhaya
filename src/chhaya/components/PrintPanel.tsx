@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { DEFAULT_FRAME, type Edit, type FrameKind, type FrameSettings } from "../edit";
 import { FRAMES } from "../frames";
+import { getGrid, GRIDS } from "../grids";
+import { GridTile } from "./GridTile";
 import { Chips } from "./Chips";
 import { HairlineSlider } from "./HairlineSlider";
 
@@ -14,19 +16,23 @@ type Props = {
 
 type Sub = "caption" | "date" | "paper" | "border";
 
-const HAS_CAPTION: FrameKind[] = ["instant", "sx70", "mini", "wide", "strip"];
+const HAS_CAPTION: FrameKind[] = ["instant", "sx70", "mini", "wide", "strip", "grid"];
 
 export function PrintPanel({ edit, onLive, onCommit }: Props) {
   const f = edit.frame;
   const [sub, setSub] = useState<Sub>("caption");
   const set = (p: Partial<FrameSettings>) => ({ ...edit, frame: { ...f, ...p } });
-  const frame = FRAMES.find((x) => x.kind === f.kind)!;
+  const isGrid = f.kind === "grid" || f.kind === "strip";
+  const grid = getGrid(f.kind === "strip" ? "4-strip" : f.grid);
+  const frame = isGrid
+    ? { kind: f.kind, label: `${grid.label}`, hint: `${grid.cols} × ${grid.rows} grid` }
+    : FRAMES.find((x) => x.kind === f.kind)!;
 
   const subs: { id: Sub; label: string; edited: boolean }[] = [
     ...(HAS_CAPTION.includes(f.kind) ? [{ id: "caption" as Sub, label: "Caption", edited: !!f.caption }] : []),
     { id: "date", label: "Date stamp", edited: f.date },
     ...(f.kind !== "film" ? [{ id: "paper" as Sub, label: "Paper", edited: f.paper !== DEFAULT_FRAME.paper }] : []),
-    ...(f.kind === "border" || f.kind === "strip" ? [{ id: "border" as Sub, label: "Border", edited: f.borderColor !== "white" }] : []),
+    ...(f.kind === "border" || isGrid ? [{ id: "border" as Sub, label: "Border", edited: f.borderColor !== "white" }] : []),
   ];
   const active = subs.find((s) => s.id === sub) ?? subs[0];
 
@@ -144,6 +150,25 @@ export function PrintPanel({ edit, onLive, onCommit }: Props) {
                 <span className="ch-frame-tile-photo" />
               </span>
               <span className="ch-look-code">{x.label}</span>
+            </button>
+          );
+        })}
+        <span className="ch-looks-divider" aria-hidden="true" title="Photo booth grids" />
+        {GRIDS.map((g) => {
+          const on = isGrid && grid.id === g.id;
+          return (
+            <button
+              key={g.id}
+              role="option"
+              aria-selected={on}
+              aria-label={`${g.label}, ${g.cols} by ${g.rows} grid`}
+              className={`ch-look${on ? " is-on" : ""}`}
+              onClick={() => onCommit(set({ kind: "grid", grid: g.id }))}
+            >
+              <span className="ch-look-thumb ch-frame-tile ch-frame-grid">
+                <GridTile grid={g} dark={f.borderColor === "black"} />
+              </span>
+              <span className="ch-look-code">{g.label}</span>
             </button>
           );
         })}

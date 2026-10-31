@@ -1,4 +1,5 @@
 import type { FrameKind, FrameSettings } from "./edit";
+import { getGrid, gridGeometry } from "./grids";
 
 /**
  * Prints: lays the finished photo (or ASCII image) into a Polaroid, strip,
@@ -11,10 +12,12 @@ export const FRAMES: { kind: FrameKind; label: string; hint: string }[] = [
   { kind: "sx70", label: "SX-70", hint: "creamy, square" },
   { kind: "mini", label: "Mini", hint: "54 × 86" },
   { kind: "wide", label: "Wide", hint: "108 × 86" },
-  { kind: "strip", label: "Strip", hint: "photo booth" },
   { kind: "film", label: "35mm", hint: "film negative" },
   { kind: "border", label: "Border", hint: "plain" },
 ];
+
+/** Largest print we compose, in pixels. Safe for phone browsers' canvas limits. */
+const MAX_PIXELS = 14_000_000;
 
 export const INSTANT_KINDS: FrameKind[] = ["instant", "sx70", "mini", "wide"];
 
@@ -173,6 +176,14 @@ function dateStamp(ctx: Ctx, r: Rect, when: Date) {
   ctx.restore();
 }
 
+/** A 2D context that scales images with high-quality smoothing. */
+function hq(c: HTMLCanvasElement) {
+  const ctx = c.getContext("2d")!;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  return ctx;
+}
+
 function canvasOf(w: number, h: number) {
   const c = document.createElement("canvas");
   c.width = Math.round(w);
@@ -192,7 +203,7 @@ export function compose(
 
   if (f.kind === "none") {
     const c = canvasOf(iw, ih);
-    const ctx = c.getContext("2d")!;
+    const ctx = hq(c);
     ctx.drawImage(img, 0, 0, iw, ih);
     const image = { x: 0, y: 0, w: iw, h: ih };
     if (f.date) dateStamp(ctx, image, date);
@@ -203,7 +214,7 @@ export function compose(
   if (f.kind === "border") {
     const t = (f.borderSize / 100) * Math.max(iw, ih);
     const c = canvasOf(iw + 2 * t, ih + 2 * t);
-    const ctx = c.getContext("2d")!;
+    const ctx = hq(c);
     ctx.fillStyle = f.borderColor === "white" ? "#fbfaf7" : "#0f0f0e";
     ctx.fillRect(0, 0, c.width, c.height);
     paper(ctx, { x: 0, y: 0, w: c.width, h: c.height }, f.borderColor === "white" ? f.paper : 0);
@@ -234,7 +245,7 @@ export function compose(
     const AH = A / spec.a;
     const card = { x: 0, y: 0, w: A * (1 + 2 * spec.side), h: AH + A * (spec.top + spec.bottom) };
     const c = canvasOf(card.w, card.h);
-    const ctx = c.getContext("2d")!;
+    const ctx = hq(c);
     const rad = A * spec.rad;
     ctx.fillStyle = spec.paper;
     roundRect(ctx, card, rad);
@@ -255,28 +266,41 @@ export function compose(
     return { canvas: c, image };
   }
 
-  if (f.kind === "strip") {
+  if (f.kind === "grid" || f.kind === "strip") {
+    // Photo booth grids. Shots are stacked top to bottom in the image; a single
+    // photo is repeated into every cell.
+    const g = getGrid(f.kind === "strip" ? "4-strip" : f.grid);
     const n = Math.max(1, meta.strip);
     const sh = ih / n;
-    const pad = iw * 0.07;
-    const gap = iw * 0.04;
-    const foot = iw * 0.32;
-    const c = canvasOf(iw + 2 * pad, pad + n * sh + (n - 1) * gap + foot);
-    const ctx = c.getContext("2d")!;
+    // Cells use the shots' full width, but the whole print stays under ~14 MP:
+    // phones (iOS Safari especially) refuse to draw or save larger canvases.
+    const full = gridGeometry(g, iw);
+    const geo = gridGeometry(g, iw * Math.min(1, Math.sqrt(MAX_PIXELS / (full.w * full.h))));
+    const c = canvasOf(geo.w, geo.h);
+    const ctx = hq(c);
     const dark = f.borderColor === "black";
     ctx.fillStyle = dark ? "#0f0f0e" : "#fbfaf7";
     ctx.fillRect(0, 0, c.width, c.height);
     paper(ctx, { x: 0, y: 0, w: c.width, h: c.height }, dark ? 0 : f.paper);
-    for (let i = 0; i < n; i++) {
-      const dst = { x: pad, y: pad + i * (sh + gap), w: iw, h: sh };
-      ctx.drawImage(img, 0, i * sh, iw, sh, dst.x, dst.y, dst.w, dst.h);
-      if (f.date && i === n - 1) dateStamp(ctx, dst, date);
-    }
-    const footTop = pad + n * sh + (n - 1) * gap;
+    geo.cells.forEach((cell, i) => {
+      const k = i % n;
+      cover(ctx, img, iw, ih, cell, { x: 0, y: k * sh, w: iw, h: sh });
+    });
+    const last = geo.cells[geo.cells.length - 1];
+    if (f.date) dateStamp(ctx, last, date);
     const ink = dark ? "#f2f1ee" : "#2b2a27";
-    caption(ctx, f.caption, c.width / 2, footTop + foot * 0.36, iw * 0.08, ink);
-    watermark(ctx, c.width / 2, c.height - foot * 0.16, iw * 0.05, date, ink, dark ? "#a3a19b" : "#7a7871");
-    return { canvas: c, image: { x: pad, y: pad, w: iw, h: n * sh + (n - 1) * gap } };
+    const foot = geo.foot;
+    const size = Math.min(geo.w * 0.05, geo.cells[0].w * 0.06);
+    if (foot.h > size * 3.2) {
+      // Enough paper at the bottom: caption, then the mark at the very bottom.
+      const roomForCaption = foot.h > size * 5.5;
+      if (f.caption && roomForCaption) caption(ctx, f.caption, geo.w / 2, foot.y + foot.h * 0.36, size * 1.5, ink);
+      watermark(ctx, geo.w / 2, geo.h - Math.min(foot.h * 0.16, size * 1.1), size, date, ink, dark ? "#a3a19b" : "#7a7871");
+    } else {
+      // No paper to write on: put the mark on the photos, centred across the bottom row.
+      markOnPhoto(ctx, { x: geo.photos.x, y: last.y, w: geo.photos.w, h: last.h }, date);
+    }
+    return { canvas: c, image: geo.photos };
   }
 
   // 35mm film: 3:2 frame, black rebate with sprocket holes and edge print.
@@ -286,7 +310,7 @@ export function compose(
   const band = Math.min(W, H) * 0.17;
   const side = Math.min(W, H) * 0.04;
   const c = canvasOf(W + 2 * side, H + 2 * band);
-  const ctx = c.getContext("2d")!;
+  const ctx = hq(c);
   ctx.fillStyle = "#121110";
   ctx.fillRect(0, 0, c.width, c.height);
   const holeW = band * 0.42;
