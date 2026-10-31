@@ -11,10 +11,8 @@ export type Photo = {
   strip: number;
 };
 
-/** Photo and ASCII captures are 4:5 (good on phones and for posting); strip shots are 4:3 like a booth. */
+/** Photo and ASCII captures are 4:5 (good on phones and for posting). Grid shots use their layout's aspect. */
 export const CAPTURE_ASPECT = 4 / 5;
-export const STRIP_ASPECT = 4 / 3;
-export const STRIP_SHOTS = 4;
 
 export async function startCamera(facing: Facing): Promise<MediaStream> {
   if (!navigator.mediaDevices?.getUserMedia) throw new Error("no-camera");
@@ -32,10 +30,8 @@ export function stopCamera(stream: MediaStream | null) {
   stream?.getTracks().forEach((t) => t.stop());
 }
 
-/** Grabs the current video frame as the 4:5 crop the viewfinder shows. */
-export async function captureFrame(video: HTMLVideoElement, mirror: boolean, aspect = CAPTURE_ASPECT): Promise<Photo> {
-  const vw = video.videoWidth;
-  const vh = video.videoHeight;
+/** Crops the centre of a source to `aspect`, mirroring if asked. */
+async function cropToPhoto(src: CanvasImageSource, vw: number, vh: number, mirror: boolean, aspect: number): Promise<Photo> {
   let sw = vw;
   let sh = vh;
   if (vw / vh > aspect) sw = Math.round(vh * aspect);
@@ -51,16 +47,52 @@ export async function captureFrame(video: HTMLVideoElement, mirror: boolean, asp
     ctx.translate(sw, 0);
     ctx.scale(-1, 1);
   }
-  ctx.drawImage(video, sx, sy, sw, sh, 0, 0, sw, sh);
+  ctx.drawImage(src, sx, sy, sw, sh, 0, 0, sw, sh);
   const bitmap = await createImageBitmap(c);
   const takenAt = new Date();
   return { bitmap, width: sw, height: sh, name: fileStamp(takenAt), takenAt, strip: 1 };
 }
 
-/** Stacks strip shots into one tall image; the Strip frame lays them out with gaps. */
-export async function stackStrip(shots: Photo[]): Promise<Photo> {
+/** Grabs the current video frame as the crop the viewfinder shows. Fast; used for grid shots. */
+export function captureFrame(video: HTMLVideoElement, mirror: boolean, aspect = CAPTURE_ASPECT): Promise<Photo> {
+  return cropToPhoto(video, video.videoWidth, video.videoHeight, mirror, aspect);
+}
+
+type ImageCaptureLike = { takePhoto: () => Promise<Blob> };
+
+/**
+ * A full-resolution still from the camera sensor where the browser supports it
+ * (Chrome on Android and desktop), usually several times the video's pixels.
+ * Falls back to the video frame elsewhere (iOS Safari) or if it takes too long.
+ */
+export async function capturePhoto(video: HTMLVideoElement, mirror: boolean, aspect = CAPTURE_ASPECT): Promise<Photo> {
+  const track = (video.srcObject as MediaStream | null)?.getVideoTracks()[0];
+  const IC = (globalThis as { ImageCapture?: new (t: MediaStreamTrack) => ImageCaptureLike }).ImageCapture;
+  if (track && IC) {
+    try {
+      const blob = await Promise.race([
+        new IC(track).takePhoto(),
+        new Promise<never>((_, no) => setTimeout(() => no(new Error("slow")), 2500)),
+      ]);
+      const bmp = await createImageBitmap(blob);
+      // Only worth it if the still really is bigger than the video frame.
+      if (bmp.width * bmp.height > video.videoWidth * video.videoHeight * 1.2) {
+        const photo = await cropToPhoto(bmp, bmp.width, bmp.height, mirror, aspect);
+        bmp.close();
+        return photo;
+      }
+      bmp.close();
+    } catch {
+      // Not supported for this camera, or too slow: use the video frame.
+    }
+  }
+  return captureFrame(video, mirror, aspect);
+}
+
+/** Stacks grid shots into one tall image; the grid frame lays them out. */
+export async function stackStrip(shots: Photo[], aspect: number): Promise<Photo> {
   const w = Math.min(...shots.map((s) => s.width));
-  const h = Math.round(w / STRIP_ASPECT);
+  const h = Math.round(w / aspect);
   const c = document.createElement("canvas");
   c.width = w;
   c.height = h * shots.length;

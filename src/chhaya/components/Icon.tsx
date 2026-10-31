@@ -114,6 +114,37 @@ const PATHS = {
   crop: <path d="M7 3v14h14M3 7h14v14" />,
   rotate: <path d="M5 13a7 7 0 1 0 2-5.5M5 4v4h4" />,
   flipH: <path d="M12 3v18M9 7 4 17h5ZM15 7l5 10h-5Z" />,
+  off: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <path d="m6.4 17.6 11.2-11.2" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="4" y="4" width="7" height="7" rx="1.2" />
+      <rect x="13" y="4" width="7" height="7" rx="1.2" />
+      <rect x="4" y="13" width="7" height="7" rx="1.2" />
+      <rect x="13" y="13" width="7" height="7" rx="1.2" />
+    </>
+  ),
+  lamp: (
+    <>
+      <path d="M12 3v2.5M5.5 14a6.5 6.5 0 0 1 13 0Z" />
+      <path d="M4 14h16M10 14a2 2 0 0 0 4 0" />
+      <path d="M12 18.5v1.5M7.2 17.6l-1 1.2M16.8 17.6l1 1.2" />
+    </>
+  ),
+  /** Switch camera: two arrows chasing round a lens. */
+  switchCam: (
+    <>
+      <path d="M19.2 9.5A7.6 7.6 0 0 0 5.6 7.4" />
+      <path d="M19.6 5.3v4.4h-4.4" />
+      <path d="M4.8 14.5a7.6 7.6 0 0 0 13.6 2.1" />
+      <path d="M4.4 18.7v-4.4h4.4" />
+      <circle cx="12" cy="12" r="2.6" />
+    </>
+  ),
   star: <path d="m12 3.8 2.5 5.2 5.7.8-4.1 4 1 5.6L12 16.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8Z" />,
   plus: <path d="M12 5v14M5 12h14" />,
   copy: (

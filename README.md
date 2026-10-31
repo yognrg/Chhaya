@@ -29,8 +29,12 @@
 
 **Shoot**
 - Live viewfinder with the look already applied. Swipe to change looks.
-- Photo, Strip (4 booth shots) and live ASCII modes.
-- 3-2-1 countdown, flash, front/back camera, mirror on/off.
+- Photo, Strip and live ASCII modes, with a camera toolbar:
+  - **Grid:** 12 photo-booth layouts from 2 to 6 shots (strips, side by side, 2×2, 3×2).
+  - **Filter:** pick any look by family.
+  - **Light:** turns the screen into a ring light in 15 colours (warm, skin-flattering tones and fun ones), plus any custom colour and a brightness slider. The flash uses the same colour.
+  - **Timer:** Off, 3s, 5s or 10s.
+- Flash, front/back camera, mirror on/off. Full-resolution stills where the browser supports it.
 - Upload or drag and drop instead of shooting.
 
 **Looks and presets**
@@ -55,12 +59,12 @@
 - Export as PNG, TXT or HTML, or copy the text.
 
 **Print**
-- Instant 600, SX-70, Mini, Wide, photo strip, 35mm film and plain border.
+- Instant 600, SX-70, Mini, Wide, 35mm film, plain border and all 12 photo-booth grids (a single photo is repeated into each cell).
 - Caption, orange date stamp, paper texture, and a develop-from-white animation.
 - Every photo carries a small "Chhaya." watermark that switches between light and dark ink to suit the photo.
 
 **Save**
-- Full-size PNG or JPG through the same GPU pipeline as the preview.
+- PNG or JPG through the same GPU pipeline as the preview, at least 3000px on the long side so text and the watermark stay sharp when zoomed. Prints are capped at 14 MP so phones can save them.
 - Share sheet on phones.
 
 <p align="center">

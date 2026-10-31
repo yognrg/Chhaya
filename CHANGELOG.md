@@ -1,5 +1,16 @@
 # Changelog
 
+## Camera tools, grids and sharper saves
+
+- **Camera toolbar:**
+  - **Grid:** 12 photo-booth layouts (2, 3, 4 and 6 shots).
+  - **Filter:** looks by family.
+  - **Light:** a screen ring light with 15 colours, a custom colour and brightness. The flash takes the light's colour.
+  - **Timer:** Off, 3s, 5s or 10s.
+- **Print:** all 12 grids, plus the existing frames.
+- **Sharper saves:** exports are at least 3000px on the long side. Frames use high-quality scaling, and photo mode takes a full-resolution still where the browser allows (Chrome on Android and desktop).
+- **New switch-camera icon** and a छ favicon (`favicon.ico`).
+
 ## Filters and presets from the repo guide
 
 ### Added

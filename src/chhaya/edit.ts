@@ -61,7 +61,8 @@ export const DEFAULT_ASCII: AsciiSettings = {
 
 /* ---------- Print ---------- */
 
-export type FrameKind = "none" | "instant" | "sx70" | "mini" | "wide" | "strip" | "film" | "border";
+/** "strip" is kept for older saves and means the classic 4-photo grid. */
+export type FrameKind = "none" | "instant" | "sx70" | "mini" | "wide" | "strip" | "grid" | "film" | "border";
 
 export type FrameSettings = {
   kind: FrameKind;
@@ -72,6 +73,8 @@ export type FrameSettings = {
   borderSize: number;
   /** Paper texture strength, 0 … 100. */
   paper: number;
+  /** Layout id for the grid frame (see grids.ts). */
+  grid: string;
 };
 
 export const DEFAULT_FRAME: FrameSettings = {
@@ -81,6 +84,7 @@ export const DEFAULT_FRAME: FrameSettings = {
   borderColor: "white",
   borderSize: 6,
   paper: 30,
+  grid: "4-strip",
 };
 
 /* ---------- The edit ---------- */
