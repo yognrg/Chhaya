@@ -72,7 +72,9 @@ export function SaveSheet({ ready, onClose, onSaved }: Props) {
     onSaved();
     setNote(
       d.ios
-        ? "saved to Files › Downloads. to put it in Photos, use Save to Photos instead."
+        ? d.canShare
+          ? "saved to Files › Downloads. to put it in Photos, use Save to Photos instead."
+          : "saved to Files › Downloads. to put it in Photos, press and hold the photo › Save to Photos."
         : d.android
           ? "saved to Downloads. it shows up in your Gallery too."
           : "saved to your Downloads folder.",
