@@ -66,27 +66,45 @@ type ImageCaptureLike = { takePhoto: () => Promise<Blob> };
  * Falls back to the video frame elsewhere (iOS Safari) or if it takes too long.
  */
 export async function capturePhoto(video: HTMLVideoElement, mirror: boolean, aspect = CAPTURE_ASPECT): Promise<Photo> {
+  // Take the video frame first: asking for a still can briefly disturb the live stream.
+  const frame = await captureFrame(video, mirror, aspect);
   const track = (video.srcObject as MediaStream | null)?.getVideoTracks()[0];
   const IC = (globalThis as { ImageCapture?: new (t: MediaStreamTrack) => ImageCaptureLike }).ImageCapture;
-  if (track && IC) {
-    try {
-      const blob = await Promise.race([
-        new IC(track).takePhoto(),
-        new Promise<never>((_, no) => setTimeout(() => no(new Error("slow")), 2500)),
-      ]);
-      const bmp = await createImageBitmap(blob);
-      // Only worth it if the still really is bigger than the video frame.
-      if (bmp.width * bmp.height > video.videoWidth * video.videoHeight * 1.2) {
-        const photo = await cropToPhoto(bmp, bmp.width, bmp.height, mirror, aspect);
-        bmp.close();
-        return photo;
-      }
+  if (!track || !IC) return frame;
+  try {
+    const blob = await Promise.race([
+      new IC(track).takePhoto(),
+      new Promise<never>((_, no) => setTimeout(() => no(new Error("slow")), 2500)),
+    ]);
+    const bmp = await createImageBitmap(blob);
+    const bigger = bmp.width * bmp.height > frame.width * frame.height * 1.2;
+    // Many webcams re-meter when switching to photo mode and return a dark still
+    // (worst with the screen light on). Only use the still if it's as bright as what we saw.
+    const brightEnough = meanLuma(bmp) >= meanLuma(frame.bitmap) * 0.8;
+    if (bigger && brightEnough) {
+      const photo = await cropToPhoto(bmp, bmp.width, bmp.height, mirror, aspect);
       bmp.close();
-    } catch {
-      // Not supported for this camera, or too slow: use the video frame.
+      frame.bitmap.close();
+      return photo;
     }
+    bmp.close();
+  } catch {
+    // Not supported for this camera, or too slow: keep the video frame.
   }
-  return captureFrame(video, mirror, aspect);
+  return frame;
+}
+
+/** Average brightness (0 … 1) of an image, from a small sample. */
+function meanLuma(src: ImageBitmap): number {
+  const c = document.createElement("canvas");
+  c.width = 32;
+  c.height = 32;
+  const ctx = c.getContext("2d", { willReadFrequently: true })!;
+  ctx.drawImage(src, 0, 0, 32, 32);
+  const d = ctx.getImageData(0, 0, 32, 32).data;
+  let sum = 0;
+  for (let i = 0; i < d.length; i += 4) sum += 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+  return sum / (d.length / 4) / 255;
 }
 
 /** Stacks grid shots into one tall image; the grid frame lays them out. */
