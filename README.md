@@ -114,6 +114,8 @@ src/
     edit.ts              the edit model and the 24 tools
     ascii.ts             photo → characters
     frames.ts            prints and the watermark
+    icons/               Lucide line icons (SVG), map.json and the generated set
+scripts/build-icons.mjs  rebuilds the icon set: npm run icons
 docs/                    product plan, filter guide, logo and screenshots
 ```
 
@@ -144,6 +146,10 @@ A preset in `src/chhaya/data/presets.json`:
 ```
 
 The recipe steps are listed in `src/chhaya/recipes.ts`. Categories are Vintage, Film, Instagram style, Cinematic, Black and white and Soft.
+
+## Icons
+
+Interface icons come from [Lucide](https://lucide.dev) (ISC), drawn at a 1.5 line weight. The SVGs we use are kept in `src/chhaya/icons/lucide/`. To change or add one, edit `src/chhaya/icons/map.json` (our name → Lucide name) and run `npm run icons`.
 
 ## Import a LUT
 

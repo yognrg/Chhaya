@@ -5,6 +5,7 @@ import { fontFamily } from "../ascii";
 import { type AsciiSettings, DEFAULT_ASCII, type Edit } from "../edit";
 import { Chips } from "./Chips";
 import { HairlineSlider } from "./HairlineSlider";
+import { Icon, type IconName } from "./Icon";
 
 type Props = {
   edit: Edit;
@@ -13,22 +14,22 @@ type Props = {
   onCopy: () => Promise<boolean>;
 };
 
-type Item = { id: string; label: string; glyph: string };
+type Item = { id: string; label: string; icon: IconName };
 
 const ITEMS: Item[] = [
-  { id: "power", label: "ASCII", glyph: "@" },
-  { id: "chars", label: "Chars", glyph: "#" },
-  { id: "detail", label: "Detail", glyph: "▤" },
-  { id: "colour", label: "Colour", glyph: "◐" },
-  { id: "tone", label: "Tone", glyph: "☼" },
-  { id: "edges", label: "Edges", glyph: "/" },
-  { id: "dither", label: "Dither", glyph: "░" },
-  { id: "invert", label: "Invert", glyph: "⇄" },
-  { id: "font", label: "Font", glyph: "Aa" },
-  { id: "bg", label: "Backgr.", glyph: "■" },
-  { id: "crt", label: "CRT", glyph: "▭" },
-  { id: "copy", label: "Copy", glyph: "⧉" },
-];
+  { id: "power", label: "ASCII", icon: "ascii" },
+  { id: "chars", label: "Chars", icon: "chars" },
+  { id: "detail", label: "Detail", icon: "detail" },
+  { id: "colour", label: "Colour", icon: "colour" },
+  { id: "tone", label: "Tone", icon: "tone" },
+  { id: "edges", label: "Edges", icon: "edges" },
+  { id: "dither", label: "Dither", icon: "dither" },
+  { id: "invert", label: "Invert", icon: "invert" },
+  { id: "font", label: "Font", icon: "font" },
+  { id: "bg", label: "Backgr.", icon: "background" },
+  { id: "crt", label: "CRT", icon: "crt" },
+  { id: "copy", label: "Copy", icon: "copy" },
+]
 
 const TONES = [
   { key: "brightness", label: "Brightness" },
@@ -316,7 +317,7 @@ export function AsciiPanel({ edit, onLive, onCommit, onCopy }: Props) {
             aria-label={x.id === "copy" ? "Copy ASCII text" : x.label}
             disabled={x.id === "copy" && !a.enabled}
           >
-            <span className="ch-glyph-icon" aria-hidden="true">{x.glyph}</span>
+            <Icon name={x.icon} />
             <span className="ch-tool-label">{x.label}</span>
             {edited(a, x.id) && <span className="ch-dot" aria-hidden="true" />}
           </button>

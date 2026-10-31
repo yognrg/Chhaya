@@ -768,8 +768,7 @@ button:disabled {
   transform: scale(0.94);
 }
 /* Tool icons sit in the same subtle circle; the picked one fills in. */
-.ch-tool > svg,
-.ch-tool > .ch-glyph-icon {
+.ch-tool > svg {
   box-sizing: border-box;
   width: 40px;
   height: 40px;
@@ -778,14 +777,7 @@ button:disabled {
   background: var(--icon-bg);
   transition: background 150ms, color 150ms;
 }
-.ch-tool > .ch-glyph-icon {
-  display: grid;
-  place-items: center;
-  padding: 0;
-  line-height: 1;
-}
-.ch-tool.is-on > svg,
-.ch-tool.is-on > .ch-glyph-icon {
+.ch-tool.is-on > svg {
   background: var(--fg);
   color: var(--bg);
 }
@@ -1109,12 +1101,6 @@ button:disabled {
   letter-spacing: 0.06em;
 }
 
-.ch-glyph-icon {
-  height: 20px;
-  line-height: 20px;
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
-  font-size: 17px;
-}
 .ch-tool:disabled {
   opacity: 0.35;
 }

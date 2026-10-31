@@ -542,7 +542,7 @@ export function Camera({ look, mode, onModeChange, onLookChange, onCapture, onUp
           <span>{mode === "strip" ? `${layout.shots} photos` : "Grid"}</span>
         </button>
         <button className={`ch-cam-tool${panel === "filter" ? " is-open" : ""}${look !== NO_LOOK ? " is-on" : ""}`} onClick={() => togglePanel("filter")} aria-expanded={panel === "filter"}>
-          <Icon name="hsl" />
+          <Icon name="filter" />
           <span>{current?.code ?? "Filter"}</span>
         </button>
         <button className={`ch-cam-tool${panel === "light" ? " is-open" : ""}${glow ? " is-on" : ""}`} onClick={() => togglePanel("light")} aria-expanded={panel === "light"}>
