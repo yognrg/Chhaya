@@ -15,6 +15,12 @@ the public W3C specs (Filter Effects for `sepia`, `saturate`, `hue-rotate`,
 | [react-native-gl-image-filters](https://github.com/GregoryNative/react-native-gl-image-filters) by Gregory Galushka | MIT | The gentle Gingham and Slumber values (A6 Soft Gingham, A7 Soft Slumber), and the idea of presets as plain data (`createPreset`). | `src/chhaya/data/recipe-looks.json`, `src/chhaya/data/presets.json` |
 | [iOS-Image-Filters](https://github.com/jameswomack/iOS-Image-Filters) by James Womack | MIT | The false-colour toning idea behind B6 Blue Mood and B7 Envy. Colours are our own. | `src/chhaya/data/recipe-looks.json` |
 
+## Icons
+
+| Project | License | What we use | Where |
+| --- | --- | --- | --- |
+| [Lucide](https://lucide.dev) | ISC | All interface icons (55), as the original SVG files. The license is kept beside them. | `src/chhaya/icons/lucide/`, generated into `src/chhaya/icons/icons.generated.ts` |
+
 ## Ideas only (no code or data)
 
 | Project | License | Idea |
