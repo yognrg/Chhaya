@@ -1313,7 +1313,9 @@ button:disabled {
 }
 .ch-cam-tool {
   position: relative;
-  min-width: 72px;
+  /* Equal widths, so the row stays even whatever the labels say. */
+  flex: 0 0 80px;
+  min-width: 0;
   height: 56px;
   padding: 0 var(--space-1);
   border-radius: var(--space-2);
@@ -1327,6 +1329,9 @@ button:disabled {
   transition: background 150ms, color 150ms, transform 150ms var(--ease);
 }
 .ch-cam-tool span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -1611,7 +1616,8 @@ button:disabled {
 }
 .ch-camera.is-glow .ch-modes {
   align-self: center;
-  padding: 2px var(--space-2);
+  margin-top: 12px;
+  padding: 4px var(--space-2);
   border-radius: 999px;
   background: rgba(15, 15, 14, 0.38);
 }
