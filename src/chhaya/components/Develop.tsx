@@ -375,9 +375,14 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
   return (
     <div className="ch-screen ch-paper ch-develop">
       <header className="ch-develop-top">
-        <button className="ch-icon-btn" onClick={leave} aria-label="Back">
-          <Icon name="back" />
-        </button>
+        <div className="ch-top-left">
+          <button className="ch-icon-btn" onClick={leave} aria-label="Back">
+            <Icon name="back" />
+          </button>
+          <span className="ch-top-mark" aria-label="Chhaya">
+            Chhaya<span className="ch-top-dot" aria-hidden="true" />
+          </span>
+        </div>
         <div className="ch-history">
           <button className="ch-icon-btn" onClick={history.undo} disabled={!history.canUndo} aria-label="Undo">
             <Icon name="undo" />
