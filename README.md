@@ -53,10 +53,13 @@
 - Hold the photo to compare, plus undo and redo.
 
 **ASCII**
-- 8 character sets, including braille, blocks, matrix and moon phases. 40–240 columns.
-- 7 colour styles, edge lines, and 4 dithering modes (including Floyd–Steinberg and Atkinson).
-- 4 fonts, any background, and a CRT glow.
-- Export as PNG, TXT or HTML, or copy the text.
+- 5 styles: characters, pixel art, halftone, mosaic and bricks.
+- 18 one-tap recipes, such as Terminal, Matrix, Newsprint, Game Boy, PICO-8, CGA, 1-bit, Mosaic, Bricks and VHS glitch.
+- 8 character sets, including braille, blocks, matrix and moon phases. 40–240 columns (16+ cells for picture styles).
+- 11 colour styles, including tint and the Game Boy, PICO-8 and CGA palettes. Edge lines and 4 dithering modes (including Floyd–Steinberg and Atkinson), which also dither pixel art to its palette.
+- Effects: CRT glow with screen curve, glitch (RGB split and torn lines) and film grain.
+- 4 fonts and any background.
+- Export as PNG or JPG; character art also as TXT or HTML, or copy the text.
 
 **Print**
 - Instant 600, SX-70, Mini, Wide, 35mm film, plain border and all 12 photo-booth grids (a single photo is repeated into each cell).

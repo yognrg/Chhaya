@@ -28,6 +28,7 @@ the public W3C specs (Filter Effects for `sepia`, `saturate`, `hue-rotate`,
 | [pilgram2](https://github.com/mgrl/pilgram2) | Apache-2.0 | Confirmed how CSSgram-style filters combine filter chains with blend-mode overlays. Same filter set as instagram.css, so nothing extra was taken. |
 | [analog-film-emulator](https://github.com/jwagner/analog-film-emulator) by Jonas Wagner | Not open source | Film looks as colour lookup tables, plus grain and vignette sliders. We already had these; it informed adding HaldCLUT import. |
 | [preset-from-pair](https://github.com/stacylkv/preset-from-pair) | MIT | Building a LUT from a before/after photo pair. Not added yet (see CHANGELOG). |
+| [ASCII Magic](https://www.ascii-magic.com) | Proprietary | The feature list for the ASCII tab: picture styles (pixel art, halftone, mosaic, bricks), palettes, glitch, grain, CRT curve and saved recipes. Only the ideas; all code is our own. |
 | [cifilter.app](https://github.com/noahsark769/cifilter.app) | MIT | Reference for Core Image effect names (sepia tone, false colour, photo effects). |
 
 ## LUT files
@@ -35,6 +36,10 @@ the public W3C specs (Filter Effects for `sepia`, `saturate`, `hue-rotate`,
 Chhaya ships no third-party LUT files. You can import your own `.cube` or
 HaldCLUT `.png` files from the Looks tab; they stay on your device. If you
 use packs such as the G'MIC colour presets, check each pack's license first.
+
+## Palettes
+
+The Game Boy (DMG), PICO-8 and CGA colours are the well-known published palettes of those systems, listed as plain colour values.
 
 ## Fonts
 

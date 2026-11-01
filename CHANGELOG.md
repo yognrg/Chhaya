@@ -1,5 +1,13 @@
 # Changelog
 
+## More ASCII: styles, recipes and effects
+
+- **Styles:** characters, plus pixel art, halftone, mosaic and bricks (square cells, drawn at full export size).
+- **Recipes:** 18 one-tap looks: Classic, Colour text, Terminal, Amber CRT, Matrix, Braille sketch, Blueprint, Newsprint, Pop art, Pixel art, Game Boy, PICO-8, CGA, 1-bit, Mosaic, Bricks, VHS glitch and Neon tint.
+- **Colour:** tint (any colour) and the Game Boy, PICO-8 and CGA palettes. Pixel art dithers to its palette.
+- **Effects:** glitch (RGB split and torn lines), film grain and CRT screen curve. They work with every style and are seeded, so the preview matches the saved file.
+- Character-only tools (Chars, Edges, Font, Copy) are disabled for picture styles, and TXT/HTML saving is offered only for character art.
+
 ## Saving works on every device
 
 - **Save sheet:** after a photo develops, a sheet shows the photo with buttons that work because they are tapped directly. Before, the share sheet or download started seconds after the tap, so iPhones and some Android phones refused it.

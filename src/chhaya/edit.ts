@@ -15,12 +15,26 @@ export const CHARSETS = {
 } as const;
 export type Charset = keyof typeof CHARSETS;
 
-export type AsciiColour = "mono" | "original" | "duotone" | "terminal" | "amber" | "inverted" | "rainbow";
+export type AsciiColour =
+  | "mono"
+  | "original"
+  | "duotone"
+  | "tint"
+  | "terminal"
+  | "amber"
+  | "inverted"
+  | "rainbow"
+  | "gameboy"
+  | "pico8"
+  | "cga";
+/** How each cell is drawn: a character, or a picture element. */
+export type AsciiStyle = "ascii" | "pixel" | "halftone" | "mosaic" | "lego";
 export type AsciiFont = "jetbrains" | "plex" | "vt323" | "courier";
 export type AsciiBg = "black" | "paper" | "transparent" | "custom";
 
 export type AsciiSettings = {
   enabled: boolean;
+  style: AsciiStyle;
   charset: Charset;
   custom: string;
   cols: number;
@@ -37,10 +51,18 @@ export type AsciiSettings = {
   background: AsciiBg;
   bgColor: string;
   crt: boolean;
+  /** CRT screen bulge, 0 … 100. */
+  curve: number;
+  /** RGB split and slice shifts, 0 … 100. */
+  glitch: number;
+  /** Film grain over the result, 0 … 100. */
+  grain: number;
+  tintColor: string;
 };
 
 export const DEFAULT_ASCII: AsciiSettings = {
   enabled: false,
+  style: "ascii",
   charset: "standard",
   custom: " .oO@",
   cols: 96,
@@ -57,6 +79,10 @@ export const DEFAULT_ASCII: AsciiSettings = {
   background: "black",
   bgColor: "#16213e",
   crt: false,
+  curve: 0,
+  glitch: 0,
+  grain: 0,
+  tintColor: "#ff4f9a",
 };
 
 /* ---------- Print ---------- */
