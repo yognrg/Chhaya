@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { fontFamily } from "../ascii";
+import { ASCII_RECIPES, applyRecipe, matchRecipe } from "../ascii-recipes";
 import { type AsciiSettings, DEFAULT_ASCII, type Edit } from "../edit";
 import { Chips } from "./Chips";
 import { HairlineSlider } from "./HairlineSlider";
@@ -18,6 +19,8 @@ type Item = { id: string; label: string; icon: IconName };
 
 const ITEMS: Item[] = [
   { id: "power", label: "ASCII", icon: "ascii" },
+  { id: "recipe", label: "Recipes", icon: "recipe" },
+  { id: "style", label: "Style", icon: "style" },
   { id: "chars", label: "Chars", icon: "chars" },
   { id: "detail", label: "Detail", icon: "detail" },
   { id: "colour", label: "Colour", icon: "colour" },
@@ -28,8 +31,13 @@ const ITEMS: Item[] = [
   { id: "font", label: "Font", icon: "font" },
   { id: "bg", label: "Backgr.", icon: "background" },
   { id: "crt", label: "CRT", icon: "crt" },
+  { id: "glitch", label: "Glitch", icon: "glitch" },
+  { id: "grain", label: "Grain", icon: "grain" },
   { id: "copy", label: "Copy", icon: "copy" },
-]
+];
+
+/** Settings that only mean something when cells are characters. */
+const TEXT_ONLY = new Set(["chars", "edges", "font", "copy"]);
 
 const TONES = [
   { key: "brightness", label: "Brightness" },
@@ -42,6 +50,10 @@ function edited(a: AsciiSettings, id: string) {
   const d = DEFAULT_ASCII;
   switch (id) {
     case "power": return a.enabled;
+    case "recipe": return false;
+    case "style": return a.style !== d.style;
+    case "glitch": return a.glitch > 0;
+    case "grain": return a.grain > 0;
     case "chars": return a.charset !== d.charset;
     case "detail": return a.cols !== d.cols;
     case "colour": return a.colour !== d.colour;
@@ -51,7 +63,7 @@ function edited(a: AsciiSettings, id: string) {
     case "invert": return a.invert;
     case "font": return a.font !== d.font;
     case "bg": return a.background !== d.background;
-    case "crt": return a.crt;
+    case "crt": return a.crt || a.curve > 0;
     default: return false;
   }
 }
@@ -90,6 +102,67 @@ export function AsciiPanel({ edit, onLive, onCommit, onCopy }: Props) {
         />
       );
       break;
+    case "recipe": {
+      const on = matchRecipe(a);
+      control = (
+        <Chips
+          label="Recipes"
+          value={a.enabled ? (on ?? "") : ""}
+          options={ASCII_RECIPES.map((r) => ({ value: r.id, label: r.name }))}
+          onChange={(v) => {
+            const r = ASCII_RECIPES.find((x) => x.id === v);
+            if (r) onCommit({ ...edit, ascii: applyRecipe(r) });
+          }}
+        />
+      );
+      break;
+    }
+    case "style":
+      control = (
+        <Chips
+          label="Style"
+          value={a.style}
+          options={[
+            { value: "ascii", label: "Characters" },
+            { value: "pixel", label: "Pixel art" },
+            { value: "halftone", label: "Halftone" },
+            { value: "mosaic", label: "Mosaic" },
+            { value: "lego", label: "Bricks" },
+          ]}
+          onChange={(v) => commit({ style: v })}
+        />
+      );
+      break;
+    case "glitch":
+      control = (
+        <HairlineSlider
+          label="Glitch"
+          value={a.glitch}
+          min={0}
+          max={100}
+          step={1}
+          defaultValue={0}
+          decimals={0}
+          signed={false}
+          onChange={(v) => live({ glitch: v })}
+        />
+      );
+      break;
+    case "grain":
+      control = (
+        <HairlineSlider
+          label="Film grain"
+          value={a.grain}
+          min={0}
+          max={100}
+          step={1}
+          defaultValue={0}
+          decimals={0}
+          signed={false}
+          onChange={(v) => live({ grain: v })}
+        />
+      );
+      break;
     case "chars":
       control = (
         <>
@@ -125,9 +198,9 @@ export function AsciiPanel({ edit, onLive, onCommit, onCopy }: Props) {
     case "detail":
       control = (
         <HairlineSlider
-          label="Columns"
+          label={a.style === "ascii" ? "Columns" : "Cells across"}
           value={a.cols}
-          min={40}
+          min={a.style === "ascii" ? 40 : 16}
           max={240}
           step={1}
           defaultValue={DEFAULT_ASCII.cols}
@@ -147,13 +220,25 @@ export function AsciiPanel({ edit, onLive, onCommit, onCopy }: Props) {
               { value: "original", label: "Original" },
               { value: "mono", label: "Mono" },
               { value: "duotone", label: "Duotone" },
+              { value: "tint", label: "Tint", swatch: a.tintColor },
               { value: "terminal", label: "Terminal", swatch: "#33ff66" },
               { value: "amber", label: "Amber CRT", swatch: "#ffb000" },
               { value: "inverted", label: "Inverted" },
               { value: "rainbow", label: "Rainbow" },
+              { value: "gameboy", label: "Game Boy", swatch: "#8bac0f" },
+              { value: "pico8", label: "PICO-8", swatch: "#ff004d" },
+              { value: "cga", label: "CGA", swatch: "#55ffff" },
             ]}
             onChange={(v) => commit({ colour: v })}
           />
+          {a.colour === "tint" && (
+            <div className="ch-colour-pair">
+              <label>
+                <span className="ch-label ch-faint">tint</span>
+                <input type="color" value={a.tintColor} onChange={(e) => live({ tintColor: e.target.value })} />
+              </label>
+            </div>
+          )}
           {a.colour === "duotone" && (
             <div className="ch-colour-pair">
               <label>
@@ -281,12 +366,25 @@ export function AsciiPanel({ edit, onLive, onCommit, onCopy }: Props) {
       break;
     case "crt":
       control = (
-        <Chips
-          label="Scanlines and glow"
-          value={a.crt ? "on" : "off"}
-          options={[{ value: "off", label: "Off" }, { value: "on", label: "CRT glow" }]}
-          onChange={(v) => commit({ crt: v === "on" })}
-        />
+        <>
+          <Chips
+            label="Scanlines and glow"
+            value={a.crt ? "on" : "off"}
+            options={[{ value: "off", label: "Off" }, { value: "on", label: "CRT glow" }]}
+            onChange={(v) => commit({ crt: v === "on" })}
+          />
+          <HairlineSlider
+            label="Screen curve"
+            value={a.curve}
+            min={0}
+            max={100}
+            step={1}
+            defaultValue={0}
+            decimals={0}
+            signed={false}
+            onChange={(v) => live({ curve: v })}
+          />
+        </>
       );
       break;
   }
@@ -300,7 +398,13 @@ export function AsciiPanel({ edit, onLive, onCommit, onCopy }: Props) {
           <div className="ch-control-head">
             <span className="ch-label">{item === "power" ? "ASCII art" : current.label}</span>
             <span className="ch-label ch-faint" aria-live="polite">
-              {copied === "done" ? "copied" : copied === "fail" ? "couldn't copy" : a.enabled ? `${a.cols} columns` : "off"}
+              {copied === "done"
+                ? "copied"
+                : copied === "fail"
+                  ? "couldn't copy"
+                  : a.enabled
+                    ? `${a.cols} ${a.style === "ascii" ? "columns" : "cells across"}`
+                    : "off"}
             </span>
           </div>
           {control}
@@ -315,7 +419,8 @@ export function AsciiPanel({ edit, onLive, onCommit, onCopy }: Props) {
             onClick={() => pick(x.id)}
             aria-pressed={x.id === "copy" ? undefined : item === x.id}
             aria-label={x.id === "copy" ? "Copy ASCII text" : x.label}
-            disabled={x.id === "copy" && !a.enabled}
+            disabled={(x.id === "copy" && !a.enabled) || (TEXT_ONLY.has(x.id) && a.style !== "ascii")}
+            title={TEXT_ONLY.has(x.id) && a.style !== "ascii" ? "only for the Characters style" : undefined}
           >
             <Icon name={x.icon} />
             <span className="ch-tool-label">{x.label}</span>

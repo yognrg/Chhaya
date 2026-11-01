@@ -56,5 +56,8 @@
   "crt": "monitor",
   "share": "share",
   "imageDown": "image-down",
-  "external": "external-link"
+  "external": "external-link",
+  "style": "shapes",
+  "recipe": "wand-sparkles",
+  "glitch": "zap"
 }

@@ -446,7 +446,7 @@ export function Develop({ photo, initialEdit, initialTab, onBack }: Props) {
               <button role="menuitem" onClick={() => doSave("jpg")}>
                 JPG <span className="ch-menu-hint">full size, smaller</span>
               </button>
-              {edit.ascii.enabled && (
+              {edit.ascii.enabled && edit.ascii.style === "ascii" && (
                 <>
                   <button role="menuitem" onClick={() => doSave("txt")}>
                     TXT <span className="ch-menu-hint">plain ASCII text</span>
